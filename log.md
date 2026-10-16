@@ -32,3 +32,4 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 - TIX-HOMEPAGE-NEXT-FE (408983f6) and TIX-GROWTH-NEXT-FE (d4162e3) added to `repos:` of 23 shared pages, verified against origin/main.
 - Schema (CLAUDE.md) updated: generated layer, required `> ` line, `umbrella:` field, `kind/index`, commit via `scripts/commit.sh`.
 ## [2026-10-16] update | payment-fe-payment — reopen gate (payment persistence): status mapping, BE reset via /v4/landing, stale-landing sessionStorage marker, check-status cooldown
+## [2026-10-16] update | payment-fe-smart-pay — two unlink paths per method (tile vs detail page), DANA hook; gotchas: detail-page OneKlik unlink hits /tix-payment-core/undefined, legacy order_id card return never clears loading
