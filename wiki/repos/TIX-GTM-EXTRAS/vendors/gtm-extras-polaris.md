@@ -13,6 +13,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras Polaris session source
 > Copies `polaris_id` query values into `window.gtm.sessionSource` so GTM tags can attribute the session.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Does |
 |---|---|

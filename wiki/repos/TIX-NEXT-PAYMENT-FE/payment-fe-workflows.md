@@ -75,7 +75,7 @@ AGENTS.md is the team-shared guide for agents and humans (commands, contexts, en
   - `playwright.yml`: manual only.
 
 ## Release
-Changesets, single private package (`tix-next-payment-fe`, `access: restricted`, changelog via `@changesets/changelog-github`). See [[changesets-release-flow]].
+Changesets, single private package (`tix-next-payment-fe`, `access: restricted`, changelog via `@changesets/changelog-github`). See [[changesets-fixed-versioning]].
 - **Production:** merge PRs with a changeset to `main`. `release.yml` runs `changesets/action`, which opens or updates the **"Version Packages"** PR (commit `ci: version packages`). Merging it bumps `package.json` and `CHANGELOG.md`, and the next run executes `npm run release` (`changeset publish && changeset tag`), which creates the `vX.Y.Z` git tag. The workflow skips when there are no changesets and the version equals the latest stable tag. Deployment from the tag happens on Jenkins (README).
 - **Staging / prerelease:** add the label **`Automate Pre-Release`** to a PR (or run `workflow_dispatch`). `prerelease.yml` uses `anothrNick/github-tag-action` to push a prerelease tag (`-alpha` by default; label `Automate Beta Version` gives `-beta`, `Automate RC Version` gives `-rc`; a `feat:` commit bumps minor, otherwise patch) and comments the tag on the PR. README's older text describes this as "push to `origin/prerelease` → automatic tag → trigger Jenkins". See [[prerelease-flow]].
 - Env config lives in Consul (`inca.ggwp.red/ui/tiket/kv/payment`, README). Logs are in Kibana and metrics in Grafana (`service_name=next-payment-fe`).

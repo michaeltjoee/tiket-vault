@@ -15,7 +15,7 @@ tags: [repo/passport, kind/overview]
 
 > All 130 workspace packages on `origin/main`. Every one is versioned in lockstep (12.8.1 at `verified_at`, see [[changesets-fixed-versioning]]).
 
-**U** marks packages re-exported by the umbrella [[passport-passport|@tiket/passport]]. Apps can import those as `import { X } from '@tiket/passport'` and their types from `@tiket/passport/types/<pkg>`. Packages without **U** must be installed and imported directly.
+**U** marks packages re-exported by the umbrella [[passport-umbrella|@tiket/passport]]. Apps can import those as `import { X } from '@tiket/passport'` and their types from `@tiket/passport/types/<pkg>`. Packages without **U** must be installed and imported directly.
 
 | Page | npm | U | Purpose |
 |---|---|---|---|
@@ -102,7 +102,7 @@ tags: [repo/passport, kind/overview]
 | [[passport-page-module-shared]] | `@tiket/passport-page-module-shared` | | Shared page-module pieces (carousel, layout, card variants, loyalty badge) |
 | [[passport-page-module]] | `@tiket/passport-page-module` | | CMS-driven page module renderer (client and server components, initial data) |
 | [[passport-pagination]] | `@tiket/passport-pagination` | U | Pagination control |
-| [[passport-passport]] | `@tiket/passport` | — | Umbrella package re-exporting most components and types |
+| [[passport-umbrella]] | `@tiket/passport` | — | Umbrella package re-exporting most components and types |
 | [[passport-phone-verification]] | `@tiket/passport-phone-verification` | | Phone number verification flow |
 | [[passport-picker]] | `@tiket/passport-picker` | U | Date, date-time, time and wheel pickers |
 | [[passport-portal]] | `@tiket/passport-portal` | U | React portal helper |

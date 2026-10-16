@@ -60,7 +60,7 @@ Components: `Header`, `HeaderDesktop`, `HeaderMobile`, `BookingPageHeaderDesktop
 ## Gotchas
 - `layoutVariantCode` values are spread **over** the props, so they win over `hideGlobalSearch`, `verticals` and `variant` that you pass.
 - `hideBottom` only affects the deprecated desktop header. `hideRightColumn` is in `HeaderProps` but `Header` doesn't forward it; use `HeaderMobile` directly.
-- `src/index.ts` lists most exports by name instead of `export *` because of a Parcel CSS-modules bundling bug ([[parcel-bundling]]).
+- `src/index.ts` lists most exports by name instead of `export *` because of a Parcel CSS-modules bundling bug (parcel-bundler issue #8716, linked in the file header).
 - Desktop mounts its own `SnackbarProvider`.
 
 ## Sources

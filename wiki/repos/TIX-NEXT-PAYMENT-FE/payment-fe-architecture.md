@@ -90,7 +90,7 @@ Feature code for Pages Router routes is increasingly written under `app/` withou
 ## External integrations
 - **Juspay HyperCheckout** (`lib/context/HyperServiceContext.tsx`, loads `https://payments.juspay.in/payment-page/HyperServices.js`).
 - **Forter** fraud detection (`lib/context/ForterContext.tsx`, `scripts/ForterScript.tsx` injected with the CSP nonce). Design doc: `docs/FORTER_INTEGRATION.md`.
-- **tiket.com shared packages:** [[passport-passport|passport]] and sub-packages for UI, `@tiket/next` for middleware, auth/log API routes, fetch and logger. React-common: [[react-common-remote]], [[react-common-storage]], [[react-common-analytic]], [[react-common-queue]], [[react-common-utilities]].
+- **tiket.com shared packages:** [[passport-umbrella|passport]] and sub-packages for UI, `@tiket/next` for middleware, auth/log API routes, fetch and logger. React-common: [[react-common-remote]], [[react-common-storage]], [[react-common-analytic]], [[react-common-queue]], [[react-common-utilities]].
 
 ## Sources
 - `next.config.ts`, `middleware.page.ts`, `lib/middlewares/nonceMiddleware.ts`, `tsconfig.base.json`

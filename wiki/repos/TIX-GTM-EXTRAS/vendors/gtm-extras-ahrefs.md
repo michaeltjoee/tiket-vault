@@ -13,6 +13,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras Ahrefs verification
 > Injects the Ahrefs site-verification meta tag on every page that loads the bundle.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Does |
 |---|---|

@@ -27,7 +27,7 @@ tags: [repo/passport, kind/workflows]
 ## Local dev
 1. Install with pnpm 10 and test with the repo-pinned bun. The global versions break both: [[passport-local-tooling]].
 2. Run `npm run dev` for Storybook at `http://local.tiket.com:6006`. Stories are `packages/*/**/*.stories.tsx` and `*.mdx`.
-3. For a new package, run `npm run create:component my-thing`. It creates `@tiket/passport-my-thing` with a `MyThing` component, an SCSS module and a story. Then add it to `packages/passport/index.js` and `types/` if it should be in the umbrella.
+3. For a new package, run `npm run create:component my-thing`. It creates `@tiket/passport-my-thing` with a `MyThing` component, an SCSS module and a story. It also adds the package to the umbrella (`packages/passport/index.js`, `types/`, deps), so tidy or revert that part. See [[add-new-passport-package]].
 4. Add deps from inside the package dir: `pnpm add @tiket/passport-button` for a runtime dep, `-D` for a types-only or story-only dep, and `-w` for the root (`docs/dependency-management.md`).
 
 ## Git hooks (husky)

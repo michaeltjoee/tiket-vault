@@ -54,7 +54,7 @@ You pass the API response as `data`. `InsurancePopUpSwitch` lazy-loads one templ
 (from TIX-FINTECH-NEXT-FE `projects/insurance/popup/index.tsx`)
 
 ## Depends on
-[[passport-bottom-sheet]], [[passport-modal]], [[passport-header]] (`HeaderMobile` and its `Variant` type), [[passport-button]], [[passport-card]], [[passport-divider]], [[passport-floating-button]], [[passport-icons]], [[passport-label]], [[passport-radio]], [[passport-typography]], [[passport-utils]], [[passport-assets]], [[react-common-utilities]]; `lottie-react`. The data contract is the PlatTech Confluence page "Get Product Popup Display" ([[insurance-popup-api]]).
+[[passport-bottom-sheet]], [[passport-modal]], [[passport-header]] (`HeaderMobile` and its `Variant` type), [[passport-button]], [[passport-card]], [[passport-divider]], [[passport-floating-button]], [[passport-icons]], [[passport-label]], [[passport-radio]], [[passport-typography]], [[passport-utils]], [[passport-assets]], [[react-common-utilities]]; `lottie-react`. The data contract is the PlatTech Confluence page "Get Product Popup Display" ([[tix-insurance-core#Popup display API|insurance popup API]]).
 
 ## Used by
 - TIX-FINTECH-NEXT-FE: [[fintech-fe-insurance-popup]] (`projects/insurance/popup`, webview mode). `projects/insurance/shared/lib/types/popup` re-uses the `PopUp` types.

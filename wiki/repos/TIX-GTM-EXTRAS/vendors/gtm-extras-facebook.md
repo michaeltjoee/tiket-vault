@@ -18,6 +18,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras Facebook Pixel
 > Meta Pixel bootstrap plus Search and ViewContent events for travel ads, driven by `window.gtm`.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Fires | Condition |
 |---|---|---|

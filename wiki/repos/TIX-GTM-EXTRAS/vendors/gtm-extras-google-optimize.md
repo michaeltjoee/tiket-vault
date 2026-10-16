@@ -13,6 +13,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras Google Optimize
 > Exposes the active Google Optimize experiment as `window.optimize`. Very likely dead code.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Does |
 |---|---|

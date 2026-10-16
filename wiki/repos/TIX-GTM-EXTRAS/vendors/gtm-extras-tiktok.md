@@ -18,6 +18,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras TikTok Pixel
 > TikTok Pixel bootstrap plus Search, ViewContent and InitiateCheckout events for flight and hotel dynamic travel ads, with SPA navigation hooks.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Event | Condition / timing |
 |---|---|---|

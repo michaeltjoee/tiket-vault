@@ -46,7 +46,7 @@ Part of [[passport-packages]].
 
 ## Used by
 - Nearly every consumer of Passport. TIX-NEXT-PAYMENT-FE ([[payment-fe-components]], [[payment-fe-downpay]], …) and TIX-FINTECH-NEXT-FE ([[fintech-fe-gift-card]], insurance, refund) import `Text` from the umbrella `@tiket/passport`.
-- Internal: 97 packages list it as a runtime dependency, so it is effectively the base of the [[passport-design-system]], next to [[passport-icons]] and [[passport-utils]].
+- Internal: 97 packages list it as a runtime dependency, so it is effectively the base of the [[passport-overview|Passport design system]], next to [[passport-icons]] and [[passport-utils]].
 
 ## Gotchas
 - With `diagonalStrikeThrough` the output is wrapped in a `<div>`, so don't use it inside a `<p>` or inline-only context (invalid nesting causes hydration warnings).

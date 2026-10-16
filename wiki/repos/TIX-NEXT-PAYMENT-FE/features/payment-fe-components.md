@@ -105,7 +105,7 @@ No importer outside its own folder and specs: `CountryField`, `DataProtection`, 
 Several components push GTM directly via `lib/hooks/useGTM` (e.g. `Ovo/AddAccount` uses `pushGTMClick`; `Error/errorGtmUtils.tsx`). `SubmitPayment` waits on the [[react-common-analytic]] queue (`waitFor(QUEUE_KEY_REACT_COMMON_ANALYTIC)` from [[react-common-queue]]) before navigating, so analytics flush first.
 
 ## Tests
-154 Vitest specs under `components/`. Tests run against the local mock `__mocks__/@tiket/passport.tsx`, not the real [[passport-passport|passport]] (see [[payment-fe-workflows]]).
+154 Vitest specs under `components/`. Tests run against the local mock `__mocks__/@tiket/passport.tsx`, not the real [[passport-umbrella|passport]] (see [[payment-fe-workflows]]).
 
 ## Gotchas
 - `docs/CODING_CONVENTION.md` describes the container/logic/data split, but older folders (`OrderSummary`, `Groups`, `CardComponent`) still use `index.tsx` monoliths.

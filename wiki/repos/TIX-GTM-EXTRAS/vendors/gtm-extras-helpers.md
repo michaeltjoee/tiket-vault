@@ -14,6 +14,8 @@ tags: [repo/gtm-extras, kind/vendor]
 # GTM extras helpers
 > `helpers.js`: globals that replace GTM variables and trigger conditions for every vendor script, plus the `temp-*` hotel data patch.
 
+Part of [[gtm-extras-overview]].
+
 ## Scripts
 | Script | Role |
 |---|---|
