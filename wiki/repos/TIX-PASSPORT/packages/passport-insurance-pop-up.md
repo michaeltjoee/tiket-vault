@@ -3,6 +3,7 @@ title: Insurance Pop-Up
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-insurance-pop-up"
+umbrella: true
 sources:
   - packages/insurance-pop-up/src
   - packages/insurance-pop-up/package.json

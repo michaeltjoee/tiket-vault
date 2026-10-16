@@ -3,6 +3,7 @@ title: Global Popup
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-global-popup"
+umbrella: true
 sources:
   - packages/global-popup/src
   - packages/global-popup/package.json

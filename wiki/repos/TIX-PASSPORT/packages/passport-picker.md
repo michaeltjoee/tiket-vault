@@ -3,6 +3,7 @@ title: Picker (date/time/wheel)
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-picker"
+umbrella: true
 sources:
   - packages/picker/src
   - packages/picker/package.json

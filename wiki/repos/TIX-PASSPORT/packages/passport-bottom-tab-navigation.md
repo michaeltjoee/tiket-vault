@@ -3,6 +3,7 @@ title: Bottom Tab Navigation
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-bottom-tab-navigation"
+umbrella: true
 sources:
   - packages/bottom-tab-navigation/src
   - packages/bottom-tab-navigation/package.json

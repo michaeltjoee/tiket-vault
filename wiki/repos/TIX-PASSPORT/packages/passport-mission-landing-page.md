@@ -3,6 +3,7 @@ title: MissionLandingPage
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-mission-landing-page"
+umbrella: true
 sources:
   - packages/mission-landing-page/src
   - packages/mission-landing-page/package.json

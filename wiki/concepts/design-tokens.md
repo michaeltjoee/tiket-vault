@@ -1,29 +1,34 @@
 ---
 title: Design tokens across repos
 kind: concept
-repos: [TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE]
+repos: [TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-PASSPORT/packages/design-tokens
   - TIX-REACT-REMOTE/src/components/wrapper/PassportWrapper/index.tsx
   - TIX-REACT-REMOTE/src/index.ts
   - TIX-NEXT-PAYMENT-FE/app/(root)/globals.scss
   - TIX-NEXT-PAYMENT-FE/package.json
+  - TIX-HOMEPAGE-NEXT-FE/pages/_app.page.tsx
+  - TIX-GROWTH-NEXT-FE/pages/_app.page.tsx
+  - TIX-GROWTH-NEXT-FE/app/globals.scss
 verified_at:
   TIX-PASSPORT: 7a33010aca
   TIX-REACT-REMOTE: 281778b
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
   TIX-FINTECH-NEXT-FE: 5833b842
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe]
+tags: [kind/concept, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe, repo/homepage-fe, repo/growth-fe]
 ---
 
 # Design tokens
 > All Passport styling resolves to CSS custom properties defined once in [[passport-design-tokens]]. Every app must load those variables globally and compile the SCSS partials itself, because Passport ships uncompiled SCSS modules.
 
 ## How tokens reach a page
-1. **Global CSS, once per app.** payment-fe imports `base.css` and `font-loader.css` in `app/(root)/globals.scss`. react-remote imports `base.css` in `src/index.ts` and `variables.css` in the header, the country-and-currency modal and `PassportWrapper`.
-2. **SCSS partials at build time.** App and Passport `.module.scss` files `@use '@tiket/passport-design-tokens/breakpoint'` or `/mixins` (about 160 files in payment-fe and 210 in fintech-fe). Passport's `dist/` still imports `.module.scss`, so apps transpile `@tiket/passport*` and need Sass to resolve the package path ([[passport-architecture]]). payment-fe's `typed-scss-modules` script has an alias for the tokens package for the same reason.
+1. **Global CSS, once per app.** payment-fe imports `base.css` and `font-loader.css` in `app/(root)/globals.scss`. homepage-fe and growth-fe import both in `pages/_app.page.tsx`; growth-fe imports them again in `app/globals.scss` for its App Router `layout`/`not-found`. react-remote imports `base.css` in `src/index.ts` and `variables.css` in the header, the country-and-currency modal and `PassportWrapper`.
+2. **SCSS partials at build time.** App and Passport `.module.scss` files `@use '@tiket/passport-design-tokens/breakpoint'` or `/mixins` (about 160 files in payment-fe, 210 in fintech-fe, 80 in homepage-fe and 27 in growth-fe). Passport's `dist/` still imports `.module.scss`, so apps transpile `@tiket/passport*` and need Sass to resolve the package path ([[passport-architecture]]). payment-fe's `typed-scss-modules` script has an alias for the tokens package for the same reason.
 3. **TS token maps** (`colors`, `iconColors`, `computeSolidAndGradientBgStyle`…) for colours that come from API data, such as Kuber banners ([[passport-kuber-price-dynamic-banner]]).
 
 Inside Passport, 110 packages depend on design-tokens (as a devDependency, because only SCSS `@use` reads it).
@@ -37,6 +42,7 @@ react-remote scopes Passport variables under its `.passport` wrapper. [[passport
 
 ## Where it shows up
 Pages that link here:
+- TIX-HOMEPAGE-NEXT-FE: [[homepage-fe-app-shell]]
 - TIX-PASSPORT: [[passport-design-tokens]]
 - TIX-REACT-REMOTE: [[react-remote-wrapper]]
 - concepts: [[module-federation]], [[passport-accessibility-font-scaling]]
@@ -47,4 +53,5 @@ Pages that link here:
 - TIX-PASSPORT `packages/design-tokens/{base.css,variables.css,a11y-support.css,_breakpoint.scss,_mixins.scss,index.ts}`, `packages/*/package.json`
 - TIX-REACT-REMOTE `src/index.ts`, `src/components/wrapper/PassportWrapper/index.tsx`, `src/components/header/index.tsx`
 - TIX-NEXT-PAYMENT-FE `app/(root)/globals.scss`, `package.json` (`generate-css-modules-types`)
-- `git grep "@use '@tiket/passport-design-tokens"` on the payment-fe and fintech-fe baselines
+- TIX-HOMEPAGE-NEXT-FE `pages/_app.page.tsx`; TIX-GROWTH-NEXT-FE `pages/_app.page.tsx`, `app/globals.scss`
+- `git grep -l "@use '@tiket/passport-design-tokens"` on the payment-fe, fintech-fe, homepage-fe and growth-fe baselines

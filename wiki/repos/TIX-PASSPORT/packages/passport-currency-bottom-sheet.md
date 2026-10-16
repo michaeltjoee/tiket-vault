@@ -3,6 +3,7 @@ title: Currency Bottom Sheet
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-currency-bottom-sheet"
+umbrella: true
 sources:
   - packages/currency-bottom-sheet/src
   - packages/currency-bottom-sheet/package.json

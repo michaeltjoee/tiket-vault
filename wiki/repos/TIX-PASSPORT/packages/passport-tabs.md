@@ -3,6 +3,7 @@ title: Tabs
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-tabs"
+umbrella: true
 sources:
   - packages/tabs/src
   - packages/tabs/package.json

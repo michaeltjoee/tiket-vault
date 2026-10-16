@@ -3,6 +3,7 @@ title: Typography
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-typography"
+umbrella: true
 sources:
   - packages/typography/src
   - packages/typography/package.json

@@ -1,6 +1,6 @@
 # tiket workspace wiki: schema
 
-This vault follows Karpathy's LLM Wiki pattern. It is a knowledge base about the repos in `~/tiket-workspaces/` listed below, and an LLM agent maintains it. The human curates the sources and asks the questions. The agent writes and maintains every page under `wiki/`, plus `index.md` and `log.md`.
+This vault follows Karpathy's LLM Wiki pattern. It is a knowledge base about the repos in `~/tiket-workspaces/` listed below, and an LLM agent maintains it. The human curates the sources and asks the questions. The agent writes and maintains every page under `wiki/` and `log.md`. A script generates the index files.
 
 Vault root: `/Users/michael.tjoe/Library/Mobile Documents/iCloud~md~obsidian/Documents/tiket-passport/passport`. This path has spaces, so always quote it in a shell.
 
@@ -10,7 +10,8 @@ Vault root: `/Users/michael.tjoe/Library/Mobile Documents/iCloud~md~obsidian/Doc
 |---|---|---|
 | `raw/` | human | Sources that are not in the repos: `jira/`, `confluence/`, `slack/`, `notes/`, `assets/`. **Never edit or delete anything here.** You may add a new file during an ingest (a dated snapshot with its source URL). |
 | `wiki/` | agent | Compiled knowledge. Every claim in it traces to code (repo path + SHA), a repo doc, or a `raw/` file. |
-| `index.md` | agent | A catalog of every wiki page, with one line each. Update it on every page create, rename or delete. |
+| `index.md`, `wiki/shared-index.md`, `wiki/repos/<REPO>/<slug>-index.md` | script | **Generated** by `scripts/build-index.py` from each page's frontmatter and `> ` line (frontmatter `generated: true`). Never edit them. The root index lists the repos. A repo index lists that repo's pages, the shared pages tagged for it, and the other repos. The shared index lists every concept, entity, decision and how-to. The script also writes the table rows of [[passport-packages]]. |
+| `scripts/` | agent | `build-index.py [--check]`, `commit.sh` (regenerate + commit), `session-index.sh` (SessionStart hook that prints the repo index for the session's repo). |
 | `log.md` | agent | Append-only. One entry per ingest, update or lint. Newest entry goes last. |
 | `CLAUDE.md` | human + agent | This file. Change it only when the human agrees to a new convention. `AGENTS.md` is a symlink to it. |
 
@@ -48,6 +49,7 @@ Never run `checkout`, `switch`, `reset`, `stash` or `pull` in the repos. Somethi
 ```
 wiki/
   repos/<REPO>/
+    <slug>-index.md           generated: this repo's pages, its shared pages, other repos
     <slug>-overview.md        what the repo is, who consumes it, tech stack, commands
     <slug>-architecture.md    structure, build/bundling, data flow, key internal seams
     <slug>-workflows.md       dev, test, release, CI, branching for this repo
@@ -56,6 +58,7 @@ wiki/
   entities/    services, APIs, teams, external vendors, Jira epics
   decisions/   ADR-style "we chose X because Y" (date, context, decision, consequences)
   howto/       runbooks: step-by-step procedures someone can follow
+  shared-index.md   generated: every concepts/entities/decisions/howto page
 ```
 
 ## Naming and links
@@ -63,7 +66,7 @@ wiki/
 - **Filenames are unique across the whole vault.** They use lowercase kebab-case and are prefixed with the repo slug: `passport-button.md`, `react-common-fetch.md` (the repo's own name prefix is dropped once), `payment-fe-downpay.md`, `gtm-extras-tiktok.md`. Pages outside `repos/` have no slug prefix: `module-federation.md`.
 - Link with bare `[[filename]]` without `.md`, or `[[filename|label]]`. Obsidian resolves a bare link because filenames are unique.
 - Mention a package or another page only when you link it. A link to a page that doesn't exist yet is allowed: it marks a gap, and lint reports it.
-- Tags: `#repo/<slug>`, `#kind/<package|component|feature|vendor|overview|architecture|workflows|concept|entity|decision|howto>`.
+- Tags: `#repo/<slug>`, `#kind/<package|component|feature|vendor|overview|architecture|workflows|concept|entity|decision|howto|index>` (`index` is for generated files only).
 
 ## Page frontmatter (required on every wiki page)
 
@@ -73,6 +76,7 @@ title: Button
 repo: TIX-PASSPORT            # omit on concepts/entities/decisions/howto that span repos; use repos: [..] instead
 kind: package                 # see tags list
 npm: "@tiket/passport-button" # for library units
+umbrella: true                # Passport packages only: re-exported by @tiket/passport (feeds the catalog U column)
 sources:                      # repo-relative paths (dirs ok) this page was built from
   - packages/button/src
   - packages/button/package.json
@@ -82,6 +86,8 @@ status: current               # current | stale | branch-only | deprecated
 tags: [repo/passport, kind/package]
 ---
 ```
+
+Every page needs a `> ` summary line right under its `# Title`: one or two sentences. It becomes the page's line in the generated indexes, so keep it accurate when the page changes.
 
 Pages that span repos (concepts, entities, howto, decisions) put `repos: [..]` in place of `repo:`, and a map for `verified_at`. Their `sources` entries get a `<REPO>/` prefix:
 ```yaml
@@ -118,31 +124,31 @@ Style: write in plain, factual English, as short as possible while staying compl
 ## Operations
 
 ### Query (reading the wiki during a task)
-1. Read `index.md` and open the relevant pages.
+1. Start from the repo index (the SessionStart hook prints it; otherwise read `wiki/repos/<REPO>/<slug>-index.md`). For a task that crosses repos, also read `wiki/shared-index.md` or the other repo's index. Open any `[[name]]` with `find wiki -name '<name>.md'`.
 2. **Staleness check:** for each page you rely on, run `git -C <repo> log --oneline <verified_at>..origin/<baseline> -- <sources…>`. If it shows any commits, treat the page as a hint and confirm against the code.
 3. If the answer is worth keeping (a synthesis, comparison or non-obvious fact), file it as a wiki page or a section on an existing page.
 
 ### Update (after normal work in a repo)
 Write to the wiki when the task taught you something **that isn't obvious from the code**: a gotcha, a decision and its reason, a dependency between repos, a fix for a flaky test, a quirk of the release or tooling, a constraint from a human. Don't write anything that reading the code reveals immediately.
-1. Edit the matching page, or create one from the template. Bump `updated`. Bump `verified_at` only if you re-read its sources.
-2. Update `index.md` if pages were added.
-3. Append to `log.md`.
-4. Commit in the vault (see Git).
-5. Tell the human in one line: `wiki: updated [[page]] (reason)`.
+1. Edit the matching page, or create one from the template. Bump `updated`. Bump `verified_at` only if you re-read its sources. Keep the `> ` line accurate. A shared page lists in `repos:` every repo it covers, because that decides which repo indexes show it.
+2. Append to `log.md`.
+3. Commit with `scripts/commit.sh` (see Git). It regenerates the indexes.
+4. Tell the human in one line: `wiki: updated [[page]] (reason)`.
 
 ### Ingest (a new source: Jira ticket, Confluence page, Slack thread, note)
 1. Save the source to `raw/<type>/YYYY-MM-DD-<slug>.md`, starting with its URL and the fetch date. If the human already put it there, leave it unchanged.
 2. Read it, then create or update every page it affects: usually 1 entity or decision page, plus the repo, feature and concept pages it touches. Cite it as `raw/<type>/<file>`.
-3. Update `index.md`, append to `log.md` and commit.
+3. Append to `log.md` and commit with `scripts/commit.sh`.
 
 ### Lint (when the human asks)
 For staleness and coverage of one repo, use the `wiki-sync` skill. Its `~/.claude/skills/wiki-sync/scan.sh <repo-dir>` lists stale, missing and uncovered pages. The checks below that it doesn't cover (links, orphans, contradictions) belong to a full lint.
 Report first. Fix only what the human approves, or fix everything if they said "fix".
 - **Stale:** pages whose `sources` changed since `verified_at` (check with `git log`). Refresh them and bump `verified_at`.
 - **Missing:** units on the baseline that have no page (packages, components or features that were added), and pages whose units were removed (mark them `deprecated`).
-- **Links:** broken `[[links]]` (gaps), orphans (pages with no inbound link besides `index.md`), and concepts mentioned on three or more pages that have no page of their own.
+- **Links:** broken `[[links]]` (gaps), orphans (pages with no inbound link besides the generated indexes and [[passport-packages]]), and concepts mentioned on three or more pages that have no page of their own.
 - **Contradictions** between pages.
-- **Frontmatter:** fields missing or invalid.
+- **Frontmatter:** fields missing or invalid, and pages without a `> ` line (`scripts/build-index.py` prints a `WARN` for each).
+- **Indexes:** `python3 scripts/build-index.py --check` exits 1 if a generated file is out of date.
 
 ## log.md format
 
@@ -156,5 +162,6 @@ Each entry is a single `## [date] op | summary` line, optionally followed by bul
 ## Git
 
 The vault is a local git repo with no remote. After each update, ingest or lint, commit with:
-`git -C "<vault root>" add -A && git -C "<vault root>" commit -m "wiki: <op> <short summary>"`.
+`"<vault root>/scripts/commit.sh" "wiki: <op> <short summary>" ["<more paragraphs>" ...]`.
+It runs `scripts/build-index.py`, then `git add -A && git commit`. Each argument is one `-m` paragraph. Don't commit with plain `git commit`, or the indexes fall out of date. Git hooks are not used, because the global `core.hooksPath` points to `~/.signals/hooks` (git-ai), which skips the vault's `.git/hooks`.
 Never add a remote or push. The vault holds internal company knowledge.

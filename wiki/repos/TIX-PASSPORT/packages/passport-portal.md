@@ -3,6 +3,7 @@ title: Portal
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-portal"
+umbrella: true
 sources:
   - packages/portal/src
   - packages/portal/package.json

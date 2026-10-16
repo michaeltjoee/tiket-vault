@@ -3,6 +3,7 @@ title: Tooltip
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-tooltip"
+umbrella: true
 sources:
   - packages/tooltip/src
   - packages/tooltip/package.json

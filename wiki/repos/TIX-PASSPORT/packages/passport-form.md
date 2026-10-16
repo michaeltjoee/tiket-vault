@@ -3,6 +3,7 @@ title: Form
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-form"
+umbrella: true
 sources:
   - packages/form/src
   - packages/form/package.json

@@ -1,22 +1,28 @@
 ---
 title: tiket environments and hosts
 kind: concept
-repos: [TIX-REACT-COMMON, TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE]
+repos: [TIX-REACT-COMMON, TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-REACT-COMMON/packages/react-common-env/src/getEnvironment.ts
   - TIX-PASSPORT/packages/utils/src/context.tsx
   - TIX-NEXT-PAYMENT-FE/.env.local.example
   - TIX-FINTECH-NEXT-FE/.env.local.example
   - TIX-REACT-REMOTE/docs/SOP-ENVIRONMENT-VARIABLES.md
+  - TIX-HOMEPAGE-NEXT-FE/.env.local.example
+  - TIX-HOMEPAGE-NEXT-FE/next.config.ts
+  - TIX-GROWTH-NEXT-FE/.env.local.example
+  - TIX-GROWTH-NEXT-FE/e2e/playwright.env.ts
 verified_at:
   TIX-REACT-COMMON: 14597c4e
   TIX-PASSPORT: 7a33010aca
   TIX-REACT-REMOTE: 281778b
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
   TIX-FINTECH-NEXT-FE: 5833b842
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe]
+tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe, repo/homepage-fe, repo/growth-fe]
 ---
 
 # tiket environments and hosts
@@ -39,6 +45,7 @@ Passport mirrors the names as `PassportEnvironment` and takes `environment` on `
 
 ## Build time and run time
 - Next apps read `NEXT_PUBLIC_*` (inlined at build time) and server env such as `SERVER_SIDE_SERVICE_ENDPOINT` (`https://lb1-testing.tiket.com` locally, needs VPN). payment-fe keeps deploy config in Consul ([[payment-fe-workflows]]).
+- homepage-fe picks the Apple App Site Association file from `NEXT_PUBLIC_NON_PREFIXED_HOSTNAME` in `next.config.ts`: a two-part host (`tiket.com`) is production, a `preprod.` or `gatotkaca.` prefix picks that file, and anything else falls back to `gatotkaca` ([[homepage-fe-architecture]]). growth-fe's Playwright maps `PLAYWRIGHT_APP_ENV` `local`/`staging`/`preprod`/`prod` to `local.tiket.com:3000`, `gatotkaca`, `preprod` and `www` (`e2e/playwright.env.ts`, [[growth-fe-workflows]]).
 - TIX-REACT-REMOTE client vars are inlined by `DefinePlugin` at Docker build time and need a Dockerfile `ARG`/`ENV` plus a Jenkins `--build-arg`. The K8s ConfigMap can't change them ([[react-remote-workflows]]).
 
 ## Gotchas
@@ -49,6 +56,8 @@ Passport mirrors the names as `PassportEnvironment` and takes `environment` on `
 
 ## Where it shows up
 Pages that link here:
+- TIX-GROWTH-NEXT-FE: [[growth-fe-workflows]]
+- TIX-HOMEPAGE-NEXT-FE: [[homepage-fe-workflows]]
 - TIX-REACT-COMMON: [[react-common-env]]
 - concepts: [[cross-subdomain-storage]], [[web-push-notifications]]
 - entities: [[tix-image-service]]
@@ -59,3 +68,4 @@ Pages that link here:
 - TIX-PASSPORT `packages/utils/src/{context.tsx,usePassportEnvironment.ts}`
 - TIX-NEXT-PAYMENT-FE `.env.local.example` (react-remote URLs per environment), TIX-FINTECH-NEXT-FE `.env.local.example`
 - TIX-REACT-REMOTE `docs/SOP-ENVIRONMENT-VARIABLES.md`
+- TIX-HOMEPAGE-NEXT-FE `.env.local.example`, `next.config.ts`; TIX-GROWTH-NEXT-FE `.env.local.example`, `e2e/playwright.env.ts`

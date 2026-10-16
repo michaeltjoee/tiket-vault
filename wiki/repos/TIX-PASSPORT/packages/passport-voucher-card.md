@@ -3,6 +3,7 @@ title: Voucher Card
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-voucher-card"
+umbrella: true
 sources:
   - packages/voucher-card/src
   - packages/voucher-card/package.json

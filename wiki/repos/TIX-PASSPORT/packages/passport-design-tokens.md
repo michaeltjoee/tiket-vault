@@ -3,6 +3,7 @@ title: Design Tokens
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-design-tokens"
+umbrella: true
 sources:
   - packages/design-tokens
 verified_at: 7a33010aca

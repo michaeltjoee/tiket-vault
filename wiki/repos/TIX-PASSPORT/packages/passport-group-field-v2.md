@@ -3,6 +3,7 @@ title: Group Field V2
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-group-field-v2"
+umbrella: true
 sources:
   - packages/group-field-v2/src
   - packages/group-field-v2/package.json

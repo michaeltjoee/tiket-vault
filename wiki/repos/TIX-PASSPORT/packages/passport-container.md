@@ -3,6 +3,7 @@ title: Container
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-container"
+umbrella: true
 sources:
   - packages/container/src
   - packages/container/package.json

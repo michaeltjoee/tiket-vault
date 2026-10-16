@@ -3,6 +3,7 @@ title: PriceSummary
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-price-summary"
+umbrella: true
 sources:
   - packages/price-summary/src
   - packages/price-summary/package.json

@@ -3,6 +3,7 @@ title: Chips Carousel
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-chips-carousel"
+umbrella: true
 sources:
   - packages/chips-carousel/src
   - packages/chips-carousel/package.json

@@ -3,6 +3,7 @@ title: Gradient Banner
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-gradient-banner"
+umbrella: true
 sources:
   - packages/gradient-banner/src
   - packages/gradient-banner/package.json

@@ -3,6 +3,7 @@ title: PageModuleCollapse
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-page-module-collapse"
+umbrella: true
 sources:
   - packages/page-module-collapse/src
   - packages/page-module-collapse/package.json

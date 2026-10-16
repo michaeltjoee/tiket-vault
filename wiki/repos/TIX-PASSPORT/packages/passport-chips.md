@@ -3,6 +3,7 @@ title: Chips
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-chips"
+umbrella: true
 sources:
   - packages/chips/src
   - packages/chips/package.json

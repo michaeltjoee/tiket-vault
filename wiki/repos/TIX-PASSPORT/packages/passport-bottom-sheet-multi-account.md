@@ -3,6 +3,7 @@ title: Bottom Sheet Multi Account
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-bottom-sheet-multi-account"
+umbrella: true
 sources:
   - packages/bottom-sheet-multi-account/src
   - packages/bottom-sheet-multi-account/package.json

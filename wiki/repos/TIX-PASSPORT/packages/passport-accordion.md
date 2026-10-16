@@ -3,6 +3,7 @@ title: Accordion
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-accordion"
+umbrella: true
 sources:
   - packages/accordion/src
   - packages/accordion/package.json

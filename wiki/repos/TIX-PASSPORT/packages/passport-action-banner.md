@@ -3,6 +3,7 @@ title: Action Banner
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-action-banner"
+umbrella: true
 sources:
   - packages/action-banner/src
   - packages/action-banner/package.json

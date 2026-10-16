@@ -3,6 +3,7 @@ title: QrPopup
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-qr-popup"
+umbrella: true
 sources:
   - packages/qr-popup/src
   - packages/qr-popup/package.json

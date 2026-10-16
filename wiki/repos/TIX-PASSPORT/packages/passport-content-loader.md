@@ -3,6 +3,7 @@ title: Content Loader
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-content-loader"
+umbrella: true
 sources:
   - packages/content-loader/src
   - packages/content-loader/package.json

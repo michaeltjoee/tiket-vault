@@ -3,6 +3,7 @@ title: Coachmark
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-coachmark"
+umbrella: true
 sources:
   - packages/coachmark/src
   - packages/coachmark/package.json

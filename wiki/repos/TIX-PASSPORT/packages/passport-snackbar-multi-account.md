@@ -3,6 +3,7 @@ title: SnackbarMultiAccount
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-snackbar-multi-account"
+umbrella: true
 sources:
   - packages/snackbar-multi-account/src
   - packages/snackbar-multi-account/package.json

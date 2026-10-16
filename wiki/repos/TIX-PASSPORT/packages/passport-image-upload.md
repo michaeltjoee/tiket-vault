@@ -3,6 +3,7 @@ title: Image Upload
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-image-upload"
+umbrella: true
 sources:
   - packages/image-upload/src
   - packages/image-upload/package.json

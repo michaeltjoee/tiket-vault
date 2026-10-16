@@ -1,7 +1,7 @@
 ---
 title: Module federation (shared remote components)
 kind: concept
-repos: [TIX-REACT-REMOTE, TIX-REACT-COMMON, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-PASSPORT]
+repos: [TIX-REACT-REMOTE, TIX-REACT-COMMON, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-PASSPORT, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-REACT-REMOTE/webpack.config.js
   - TIX-REACT-REMOTE/exposes.config.js
@@ -10,14 +10,18 @@ sources:
   - TIX-REACT-COMMON/packages/react-common-remote/src/RemoteComponent
   - TIX-NEXT-PAYMENT-FE/next.config.ts
   - TIX-FINTECH-NEXT-FE/next.config.js
+  - TIX-HOMEPAGE-NEXT-FE/next.config.ts
+  - TIX-GROWTH-NEXT-FE/next.config.js
 verified_at:
   TIX-REACT-REMOTE: 281778b
   TIX-REACT-COMMON: 14597c4e
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
   TIX-FINTECH-NEXT-FE: 5833b842
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/react-remote, repo/react-common, repo/payment-fe, repo/fintech-fe, repo/passport]
+tags: [kind/concept, repo/react-remote, repo/react-common, repo/payment-fe, repo/fintech-fe, repo/passport, repo/homepage-fe, repo/growth-fe]
 ---
 
 # Module federation
@@ -28,7 +32,7 @@ tags: [kind/concept, repo/react-remote, repo/react-common, repo/payment-fe, repo
 |---|---|---|
 | Container | TIX-REACT-REMOTE | `webpack.config.js`: `ModuleFederationPlugin({ name: 'ReactRemote', filename: 'remoteEntry.js', exposes })`. `exposes.config.js` has 13 keys (header, header-mobile, header-slim, footer, footer-desktop, footer-mobile, scripts, reviews, global-popup, google-one-tap, wishlist-module, corporate-interim-module, country-and-currency-modal). See [[react-remote-architecture]]. |
 | Loader | TIX-REACT-COMMON | [[react-common-remote]]: `RemoteComponent` plus one `Remote<Name>` wrapper and `Fallback.tsx` per key. `MODULES_NAME` in `src/types.ts` mirrors `exposes.config.js`. |
-| Hosts | TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE | `next.config.*` pushes a client-only `ModuleFederationPlugin({ name: pkg.name })` with no `exposes` or `remotes`. It exists only so the page has a webpack share scope. |
+| Hosts | TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE | `next.config.*` pushes a client-only `ModuleFederationPlugin({ name: pkg.name })` with no `exposes` or `remotes`. It exists only so the page has a webpack share scope. |
 | Content | TIX-PASSPORT | [[passport-header]], [[passport-footer]], [[passport-global-popup]], [[passport-wishlist]], [[passport-review-widget]] and others, compiled into the container. |
 
 ## Runtime sequence
@@ -44,7 +48,8 @@ Only `react`, `react-dom` and `@tiket/passport-typography` are shared singletons
 `consumeFromSource` in `webpack.config.js` aliases four packages to their `src/` (react-common-utilities, passport-currency-bottom-sheet, passport-language-and-currency-modal, passport-global-search). An swc rule in `config.js` (`@swc/plugin-transform-imports`) also rewrites `@tiket/passport-<x>` imports to `@tiket/passport-<x>/src`, which is why Passport packages publish `src/` (`files: [dist, src]`).
 
 ## Gotchas
-- Next 16 Turbopack can't run `ModuleFederationPlugin`, so both hosts build and run dev with `--webpack` ([[fintech-fe-architecture]], [[payment-fe-architecture]]).
+- Next 16 Turbopack can't run `ModuleFederationPlugin`, so the hosts build and run dev with `--webpack` ([[fintech-fe-architecture]], [[payment-fe-architecture]], [[growth-fe-overview]]).
+- homepage-fe puts `RemoteConfigScript` first in `<head>` so `window.__TIX_REMOTE_CONFIG__` is set before any `remoteEntry.js` loads ([[homepage-fe-architecture]]).
 - The container inlines its own `NEXT_PUBLIC_*` values at build time. Code that must follow the host, such as the fetch-client `basePrefixForApp`, reads runtime config instead (`setFetchClientConfig`, `window.__TIX_REMOTE_CONFIG__`; see [[react-common-fetch-client]]). Client env vars in the remote need a Docker build arg ([[react-remote-workflows]]).
 - Passport modals render through [[passport-portal]] into `document.body`, outside the remote's `.passport` scope. react-remote injects a `:root` block of icon and font colours for them ([[design-tokens]]).
 - Adding a remote touches both repos: `pnpm create:component` in react-remote, then `MODULES_NAME` and a `Remote<Name>` wrapper in react-common-remote ([[react-remote-workflows]]).
@@ -52,6 +57,8 @@ Only `react`, `react-dom` and `@tiket/passport-typography` are shared singletons
 ## Where it shows up
 Pages that link here:
 - TIX-FINTECH-NEXT-FE: [[fintech-fe-architecture]], [[fintech-fe-overview]]
+- TIX-GROWTH-NEXT-FE: [[growth-fe-architecture]], [[growth-fe-overview]]
+- TIX-HOMEPAGE-NEXT-FE: [[homepage-fe-architecture]], [[homepage-fe-overview]]
 - TIX-NEXT-PAYMENT-FE: [[payment-fe-architecture]], [[payment-fe-overview]]
 - TIX-PASSPORT: [[passport-header]], [[passport-language-and-currency-modal]], [[passport-overview]], [[passport-review-widget]], [[passport-wishlist]]
 - TIX-REACT-COMMON: [[react-common-fetch-client]], [[react-common-remote]]
@@ -63,4 +70,4 @@ Pages that link here:
 ## Sources
 - TIX-REACT-REMOTE `webpack.config.js`, `exposes.config.js`, `src/utils/mount.tsx`, `src/components/*/bootstrap.ts`
 - TIX-REACT-COMMON `packages/react-common-remote/src/RemoteComponent/{index.tsx,utils.ts,useDynamicScript.ts}`, `packages/react-common-remote/src/Remote*/Fallback.tsx`
-- TIX-NEXT-PAYMENT-FE `next.config.ts`, TIX-FINTECH-NEXT-FE `next.config.js`
+- TIX-NEXT-PAYMENT-FE `next.config.ts`, TIX-FINTECH-NEXT-FE `next.config.js`, TIX-HOMEPAGE-NEXT-FE `next.config.ts`, `components/RemoteConfigScript/RemoteConfigScript.tsx`, TIX-GROWTH-NEXT-FE `next.config.js`

@@ -3,6 +3,7 @@ title: ReviewWidget
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-review-widget"
+umbrella: true
 sources:
   - packages/review-widget/src
   - packages/review-widget/package.json

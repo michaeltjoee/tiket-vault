@@ -3,6 +3,7 @@ title: List
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-list"
+umbrella: true
 sources:
   - packages/list/src
   - packages/list/package.json

@@ -15,6 +15,8 @@ tags: [repo/gtm-extras, kind/workflows]
 
 # TIX-GTM-EXTRAS workflows
 
+> `npm run build` concatenates every script into one committed `build/index.js` inside a single IIFE. Release is a manual `release` branch, version tag and Jenkins deploy, with no CI build or lint.
+
 Part of [[gtm-extras-overview]].
 
 ## Build

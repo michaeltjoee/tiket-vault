@@ -3,6 +3,7 @@ title: Country and Currency Modal
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-country-and-currency-modal"
+umbrella: true
 sources:
   - packages/country-and-currency-modal/src
   - packages/country-and-currency-modal/package.json

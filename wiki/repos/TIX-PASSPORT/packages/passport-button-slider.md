@@ -3,6 +3,7 @@ title: Button Slider
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-button-slider"
+umbrella: true
 sources:
   - packages/button-slider/src
   - packages/button-slider/package.json

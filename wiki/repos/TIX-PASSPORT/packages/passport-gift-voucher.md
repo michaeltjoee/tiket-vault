@@ -3,6 +3,7 @@ title: Gift Voucher
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-gift-voucher"
+umbrella: true
 sources:
   - packages/gift-voucher/src
   - packages/gift-voucher/package.json

@@ -3,6 +3,7 @@ title: Countdown
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-countdown"
+umbrella: true
 sources:
   - packages/countdown/src
   - packages/countdown/package.json

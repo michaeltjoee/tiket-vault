@@ -3,6 +3,7 @@ title: SearchWidgetFlight
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-search-widget-flight"
+umbrella: true
 sources:
   - packages/search-widget-flight/src
   - packages/search-widget-flight/package.json

@@ -3,6 +3,7 @@ title: LoadingWithIllustration
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-loading"
+umbrella: true
 sources:
   - packages/loading/src
   - packages/loading/package.json

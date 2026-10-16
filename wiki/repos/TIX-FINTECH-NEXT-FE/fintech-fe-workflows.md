@@ -26,6 +26,8 @@ tags: [repo/fintech-fe, kind/workflows]
 
 # TIX-FINTECH-NEXT-FE workflows
 
+> Local HTTPS dev, Vitest (migrated from Jest) and Playwright tests, commitlint and lint-staged hooks, Jenkins as the merge gate, and a changesets release that tags the app without publishing to npm.
+
 ## Local dev
 1. Node 24.14.1 + pnpm 9.15.9 (Volta pins in `package.json`; README's "Node 16 / npm i" is outdated). `GITHUB_TOKEN` with `read:packages` for `@tiket/*` from GitHub Packages.
 2. `cp .env.local.example .env.local`. Key vars: `NEXT_PUBLIC_BASE_PREFIX_FOR_APP=fintech`, `SERVER_SIDE_SERVICE_ENDPOINT=https://lb1-testing.tiket.com` (needs VPN), `NEXT_PUBLIC_API_MOCKING=enabled` (MSW in the browser), `NEXT_PUBLIC_WEBVIEW_BRIDGE_MOCKING`, `NEXT_PUBLIC_THIRD_PARTY_URL`, remote-component URLs, feature flags `NEXT_PUBLIC_GIFT_CARD_ENABLED`, `NEXT_PUBLIC_CLAIM_AMOUNT_ENABLED`.

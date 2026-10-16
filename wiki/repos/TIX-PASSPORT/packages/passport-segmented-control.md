@@ -3,6 +3,7 @@ title: SegmentedControl
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-segmented-control"
+umbrella: true
 sources:
   - packages/segmented-control/src
   - packages/segmented-control/package.json

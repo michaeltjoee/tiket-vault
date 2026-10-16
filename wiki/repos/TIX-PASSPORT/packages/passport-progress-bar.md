@@ -3,6 +3,7 @@ title: ProgressBar
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-progress-bar"
+umbrella: true
 sources:
   - packages/progress-bar/src
   - packages/progress-bar/package.json

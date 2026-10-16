@@ -3,6 +3,7 @@ title: SEO components
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-seo"
+umbrella: true
 sources:
   - packages/seo/src
   - packages/seo/package.json

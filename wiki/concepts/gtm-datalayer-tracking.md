@@ -1,7 +1,7 @@
 ---
 title: GTM dataLayer and window.gtm tracking
 kind: concept
-repos: [TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-REACT-COMMON, TIX-REACT-REMOTE, TIX-GTM-EXTRAS, TIX-PASSPORT]
+repos: [TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-REACT-COMMON, TIX-REACT-REMOTE, TIX-GTM-EXTRAS, TIX-PASSPORT, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-NEXT-PAYMENT-FE/lib/hooks/useGTM.ts
   - TIX-NEXT-PAYMENT-FE/lib/tracker/GTM.ts
@@ -12,6 +12,11 @@ sources:
   - TIX-REACT-REMOTE/src/utils/tracker/tracker.ts
   - TIX-GTM-EXTRAS/scripts/helpers.js
   - TIX-PASSPORT/packages/utils/src/context.tsx
+  - TIX-HOMEPAGE-NEXT-FE/pages/script.tsx
+  - TIX-HOMEPAGE-NEXT-FE/lib/tracker/GTM.ts
+  - TIX-GROWTH-NEXT-FE/components/CustomScripts/GTMScripts.tsx
+  - TIX-GROWTH-NEXT-FE/lib/gtm/core.ts
+  - TIX-GROWTH-NEXT-FE/.env.local.example
 verified_at:
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
   TIX-FINTECH-NEXT-FE: 5833b842
@@ -19,9 +24,11 @@ verified_at:
   TIX-REACT-REMOTE: 281778b
   TIX-GTM-EXTRAS: 98478af
   TIX-PASSPORT: 7a33010aca
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/payment-fe, repo/fintech-fe, repo/react-common, repo/react-remote, repo/gtm-extras, repo/passport]
+tags: [kind/concept, repo/payment-fe, repo/fintech-fe, repo/react-common, repo/react-remote, repo/gtm-extras, repo/passport, repo/homepage-fe, repo/growth-fe]
 ---
 
 # GTM dataLayer tracking
@@ -33,11 +40,13 @@ tags: [kind/concept, repo/payment-fe, repo/fintech-fe, repo/react-common, repo/r
 | `window.dataLayer` (array of events) | app trackers (`event`, `eventCategory`, `eventLabel`, `screenName`, `vertical`…), about 31 Passport packages, [[passport-kuber-price-dynamic-banner]] (`eventCategory: kuberBanner`) | GTM. react-common-analytic overrides `dataLayer.push` with `ANALYTICS_VERSION === '2.1'` and forwards events to Amplitude and Mixpanel |
 | `window.gtm` (page context: `vertical`, `screenName`, `trackingId`, `user`, `deviceId`, per-vertical objects such as `flight.*`, `hotel.*`, `giftCard.*`) | the app's GTM bootstrap script, react-common-analytic (core attributes and `gtm.user`), react-remote's footer tracker (`screenName`) | GTM variables, [[gtm-extras-helpers]] getters, [[react-common-ab-test]] (`gtm.deviceId`) |
 
-The container id is hard-coded: `NEXT_PUBLIC_GTM_ID=GTM-PLRJPPQ` in payment-fe, `GTM_ID` for every environment in react-common-analytic `getConfig.ts`, and `google_tag_manager['GTM-PLRJPPQ']` in gtm-extras `getDataLayerValue`.
+The container id is hard-coded: `NEXT_PUBLIC_GTM_ID=GTM-PLRJPPQ` in payment-fe and growth-fe (homepage-fe's `.env.local.example` leaves it empty), `GTM_ID` for every environment in react-common-analytic `getConfig.ts`, and `google_tag_manager['GTM-PLRJPPQ']` in gtm-extras `getDataLayerValue`.
 
 ## Per repo
 - **TIX-NEXT-PAYMENT-FE**: `lib/hooks/useGTM` (`pushGTMClickV2`, `pushGTMImpressionV2`, `pushGTMStatusV2`) over the `DataLayer` type in `lib/tracker/GTM.ts`, plus `components/GTMHandler`. [[payment-fe-payment-link]] has its own layer in `app/payment-link/tracking` (`gtm-tracker.ts`, `standalone.ts`) that writes `window.dataLayer` directly. Payment events use `eventCategory: paymentProcessing` (see [[payment-fe-payment]], [[payment-fe-downpay]]).
 - **TIX-FINTECH-NEXT-FE**: `components/CustomScripts/GTMScripts.tsx` injects the GTM snippet, sets `window.ANALYTICS_VERSION = "2.1"`, `window.gtm.trackingId` and `window.gtm.vertical` (for example `giftCard`). gtm-extras special-cases `vertical === 'giftCard'` ([[fintech-fe-gift-card]]).
+- **TIX-HOMEPAGE-NEXT-FE**: `pages/script.tsx` injects the snippet and sets `ANALYTICS_VERSION = "2.1"` and `window.gtm.vertical = 'home'`. Per-feature `trackers.ts` push to `window.dataLayer` with the helpers in `lib/tracker/GTM.ts`, whose `window.gtm` type uses the starter leftover key `VERTICAL_NAME = 'flight'` ([[homepage-fe-architecture]]).
+- **TIX-GROWTH-NEXT-FE**: `components/CustomScripts/GTMScripts.tsx` sets `window.gtm.vertical` from `NEXT_PUBLIC_VERTICAL` (default `growth`). `lib/gtm/core.ts` pushes to `window.dataLayer` and merges per-vertical data into `window.gtm`. Features use the verticals `growth` and `affiliate` ([[growth-fe-architecture]]).
 - **TIX-REACT-REMOTE**: the `scripts` remote calls react-common-analytic `initialize()`, so on Next pages that mount it, analytics bootstrap comes from the remote ([[react-remote-scripts]], [[react-remote-footer]]).
 - **TIX-PASSPORT**: `PassportProvider` takes a `dataLayer` prop (`Record<string, string>`) that some widgets spread into their events, for example [[passport-global-search]], [[passport-currency-bottom-sheet]] and [[passport-country-and-currency-modal]] ([[passport-utils]]).
 - **TIX-GTM-EXTRAS**: a single bundle loaded by GTM. Its vendor scripts build Facebook, TikTok and other pixel events from `window.gtm` ([[gtm-extras-facebook]], [[gtm-extras-tiktok]]).
@@ -50,6 +59,8 @@ The container id is hard-coded: `NEXT_PUBLIC_GTM_ID=GTM-PLRJPPQ` in payment-fe, 
 
 ## Where it shows up
 Pages that link here:
+- TIX-GROWTH-NEXT-FE: [[growth-fe-affiliate]], [[growth-fe-app-shell]], [[growth-fe-architecture]], [[growth-fe-blibli-affiliate]], [[growth-fe-components]], [[growth-fe-metasearch]], [[growth-fe-stories]]
+- TIX-HOMEPAGE-NEXT-FE: [[homepage-fe-app-shell]], [[homepage-fe-architecture]], [[homepage-fe-destination]], [[homepage-fe-home]], [[homepage-fe-promo]]
 - TIX-NEXT-PAYMENT-FE: [[payment-fe-architecture]], [[payment-fe-downpay]], [[payment-fe-payment]], [[payment-fe-payment-link]]
 - concepts: [[analytics-core-attributes]], [[cross-app-routing]]
 - entities: [[kuber]]
@@ -57,6 +68,8 @@ Pages that link here:
 ## Sources
 - TIX-NEXT-PAYMENT-FE `lib/hooks/useGTM.ts`, `lib/tracker/GTM.ts`, `app/payment-link/tracking/{gtm-tracker,standalone}.ts`, `.env.local.example`
 - TIX-FINTECH-NEXT-FE `components/CustomScripts/GTMScripts.tsx`
+- TIX-HOMEPAGE-NEXT-FE `pages/script.tsx`, `lib/tracker/GTM.ts`, `lib/config.ts`, `.env.local.example`
+- TIX-GROWTH-NEXT-FE `components/CustomScripts/GTMScripts.tsx`, `lib/gtm/core.ts`, `.env.local.example`
 - TIX-REACT-COMMON `packages/react-common-analytic/src/{getConfig,initialize,updateAnalyticCoreAttributes}.ts`
 - TIX-REACT-REMOTE `src/utils/tracker/tracker.ts`, `src/components/scripts/index.tsx`
 - TIX-GTM-EXTRAS `scripts/helpers.js`

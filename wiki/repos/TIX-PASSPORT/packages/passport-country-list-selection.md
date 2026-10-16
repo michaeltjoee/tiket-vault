@@ -3,6 +3,7 @@ title: Country List Selection
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-country-list-selection"
+umbrella: true
 sources:
   - packages/country-list-selection/src
   - packages/country-list-selection/package.json

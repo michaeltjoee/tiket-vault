@@ -3,6 +3,7 @@ title: NotificationBanner
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-notification-banner"
+umbrella: true
 sources:
   - packages/notification-banner/src
   - packages/notification-banner/package.json

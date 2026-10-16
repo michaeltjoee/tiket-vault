@@ -3,6 +3,7 @@ title: Label
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-label"
+umbrella: true
 sources:
   - packages/label/src
   - packages/label/package.json

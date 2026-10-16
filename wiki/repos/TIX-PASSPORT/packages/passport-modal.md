@@ -3,6 +3,7 @@ title: Modal
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-modal"
+umbrella: true
 sources:
   - packages/modal/src
   - packages/modal/package.json

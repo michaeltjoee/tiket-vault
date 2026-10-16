@@ -22,6 +22,8 @@ tags: [repo/react-remote, kind/workflows]
 
 # TIX-REACT-REMOTE workflows
 
+> Local dev on port 3003, testing a Passport change by bumping every `@tiket/passport*` dependency, adding a component, build-time vs runtime env vars, and a Docker build whose deploy pipeline lives outside the repo.
+
 ## Local development
 1. Node 24.14.1 and `corepack enable` (pnpm 10.28.2 is pinned in `packageManager`). Export a `GITHUB_TOKEN` with read access to GitHub Packages; `.npmrc` reads `${GITHUB_TOKEN}`.
 2. `cp .env.example .env`, then `pnpm install` and `pnpm dev`. The server listens on `PORT` (default 3003). Check `http://localhost:3003/api/prerender/footer`.

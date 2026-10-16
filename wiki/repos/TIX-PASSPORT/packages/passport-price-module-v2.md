@@ -3,6 +3,7 @@ title: PriceModuleV2
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-price-module-v2"
+umbrella: true
 sources:
   - packages/price-module-v2/src
   - packages/price-module-v2/package.json

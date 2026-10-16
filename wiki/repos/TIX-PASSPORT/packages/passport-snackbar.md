@@ -3,6 +3,7 @@ title: Snackbar
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-snackbar"
+umbrella: true
 sources:
   - packages/snackbar/src
   - packages/snackbar/package.json

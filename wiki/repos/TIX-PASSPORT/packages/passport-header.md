@@ -3,6 +3,7 @@ title: Header
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-header"
+umbrella: true
 sources:
   - packages/header/src
   - packages/header/package.json

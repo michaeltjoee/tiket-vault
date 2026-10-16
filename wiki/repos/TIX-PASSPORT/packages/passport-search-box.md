@@ -3,6 +3,7 @@ title: SearchBox
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-search-box"
+umbrella: true
 sources:
   - packages/search-box/src
   - packages/search-box/package.json

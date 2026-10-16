@@ -3,6 +3,7 @@ title: Collapse
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-collapse"
+umbrella: true
 sources:
   - packages/collapse/src
   - packages/collapse/package.json

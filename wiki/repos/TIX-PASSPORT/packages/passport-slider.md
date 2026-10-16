@@ -3,6 +3,7 @@ title: Slider (range)
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-slider"
+umbrella: true
 sources:
   - packages/slider/src
   - packages/slider/package.json

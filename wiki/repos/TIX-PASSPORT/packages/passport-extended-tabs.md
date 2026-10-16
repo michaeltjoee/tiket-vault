@@ -3,6 +3,7 @@ title: Extended Tabs
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-extended-tabs"
+umbrella: true
 sources:
   - packages/extended-tabs/src
   - packages/extended-tabs/package.json

@@ -3,6 +3,7 @@ title: ScrollableContent
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-scrollable-content"
+umbrella: true
 sources:
   - packages/scrollable-content/src
   - packages/scrollable-content/package.json

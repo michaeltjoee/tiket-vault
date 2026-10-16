@@ -3,6 +3,7 @@ title: ManageOrder
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-manage-order"
+umbrella: true
 sources:
   - packages/manage-order/src
   - packages/manage-order/package.json

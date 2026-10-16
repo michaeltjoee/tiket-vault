@@ -3,6 +3,7 @@ title: Supergraphic
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-supergraphic"
+umbrella: true
 sources:
   - packages/supergraphic/src
   - packages/supergraphic/package.json

@@ -3,6 +3,7 @@ title: Radio / RadioGroup
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-radio"
+umbrella: true
 sources:
   - packages/radio/src
   - packages/radio/package.json

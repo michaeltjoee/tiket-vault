@@ -3,6 +3,7 @@ title: ProgressStep
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-progress-step"
+umbrella: true
 sources:
   - packages/progress-step/src
   - packages/progress-step/package.json

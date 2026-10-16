@@ -1,7 +1,7 @@
 ---
 title: Remote component SSR (prerender API)
 kind: concept
-repos: [TIX-REACT-REMOTE, TIX-REACT-COMMON, TIX-FINTECH-NEXT-FE, TIX-NEXT-PAYMENT-FE]
+repos: [TIX-REACT-REMOTE, TIX-REACT-COMMON, TIX-FINTECH-NEXT-FE, TIX-NEXT-PAYMENT-FE, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-REACT-REMOTE/src/server/index.ts
   - TIX-REACT-REMOTE/src/server/utils/prerender.ts
@@ -9,14 +9,19 @@ sources:
   - TIX-REACT-COMMON/packages/react-common-remote/src/fetcher
   - TIX-REACT-COMMON/packages/react-common-remote/src/ServerComponents
   - TIX-FINTECH-NEXT-FE/projects/insurance/shared/lib/utils/getReactRemotePropsForDevice.ts
+  - TIX-HOMEPAGE-NEXT-FE/pages/home/utils/getHomeRemoteModules.ts
+  - TIX-HOMEPAGE-NEXT-FE/pages/index.page.tsx
+  - TIX-GROWTH-NEXT-FE/pages/affiliate/book/[product]/index.page.tsx
 verified_at:
   TIX-REACT-REMOTE: 281778b
   TIX-REACT-COMMON: 14597c4e
   TIX-FINTECH-NEXT-FE: 5833b842
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/react-remote, repo/react-common, repo/fintech-fe, repo/payment-fe]
+tags: [kind/concept, repo/react-remote, repo/react-common, repo/fintech-fe, repo/payment-fe, repo/homepage-fe, repo/growth-fe]
 ---
 
 # Remote component SSR (prerender API)
@@ -37,6 +42,8 @@ The render cache is in-process `node-cache` with TTL 0 (never expires), keyed by
 ## Who uses it
 - **TIX-FINTECH-NEXT-FE** insurance standalone pages (landing, search, PDP, checkout) call `getReactRemoteProps` through `projects/insurance/shared/lib/utils/getReactRemotePropsForDevice.ts` ([[fintech-fe-insurance-standalone]]).
 - **TIX-NEXT-PAYMENT-FE** wraps pages in `ReactRemoteProvider` but never calls the prerender API on its baseline, so its remotes render on the client only ([[payment-fe-architecture]]).
+- **TIX-HOMEPAGE-NEXT-FE** calls `getReactRemoteProps` in `getServerSideProps` on most routes (not the destination/explore previews or `/voucher-box/all`), with per-feature module lists. Home asks for `header` only on desktop and `footer` only on desktop or for bots. Destination asks for `header` on desktop and always `footer` ([[homepage-fe-architecture]]).
+- **TIX-GROWTH-NEXT-FE** calls it for `header` and `footer` on pages that show tiket chrome (stories, sitemap, affiliate book, co-brand and blibli-affiliate). The `metasearch` and `affiliate/r` redirect pages skip it ([[growth-fe-architecture]]).
 - Components with server data hooks: [[react-remote-header]] (forces `useDeprecatedHeader=false` when `clientVersion === '2.0'`) and [[react-remote-reviews]] (`getServerSideProps` reads `MS_GATEWAY_BASE_URL`).
 
 ## Gotchas
@@ -46,6 +53,8 @@ The render cache is in-process `node-cache` with TTL 0 (never expires), keyed by
 
 ## Where it shows up
 Pages that link here:
+- TIX-GROWTH-NEXT-FE: [[growth-fe-architecture]]
+- TIX-HOMEPAGE-NEXT-FE: [[homepage-fe-architecture]]
 - TIX-REACT-COMMON: [[react-common-remote]]
 - concepts: [[module-federation]], [[multi-currency]], [[new-url-structure]]
 
@@ -54,3 +63,5 @@ Pages that link here:
 - TIX-REACT-COMMON `packages/react-common-remote/src/fetcher/{fetcher,enableSsrRemoteModule,getReactRemoteProps}.ts`, `packages/react-common-remote/src/ServerComponents/fetcher/serverComponentFetcher.tsx`
 - TIX-FINTECH-NEXT-FE `projects/insurance/shared/lib/utils/getReactRemotePropsForDevice.ts`, `projects/insurance/standalone/*/index.tsx`
 - TIX-NEXT-PAYMENT-FE: `git grep getReactRemoteProps origin/main` (only a mock and a skill doc)
+- TIX-HOMEPAGE-NEXT-FE `pages/index.page.tsx`, `pages/home/utils/getHomeRemoteModules.ts`, `pages/destination/utils/getDestinationRemoteModules.ts`
+- TIX-GROWTH-NEXT-FE: `git grep getReactRemoteProps origin/main -- pages`

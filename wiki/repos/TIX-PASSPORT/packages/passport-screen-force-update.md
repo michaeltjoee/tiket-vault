@@ -3,6 +3,7 @@ title: ScreenForceUpdate
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-screen-force-update"
+umbrella: true
 sources:
   - packages/screen-force-update/src
   - packages/screen-force-update/package.json

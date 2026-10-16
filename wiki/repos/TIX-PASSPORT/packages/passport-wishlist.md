@@ -3,6 +3,7 @@ title: Wishlist
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-wishlist"
+umbrella: true
 sources:
   - packages/wishlist/src
   - packages/wishlist/package.json

@@ -1,15 +1,19 @@
 ---
 title: page-module-next POC (thin next/dynamic layer)
-repo: TIX-PASSPORT
+repos: [TIX-PASSPORT, TIX-HOMEPAGE-NEXT-FE]
 kind: decision
 branch: feat/page-module-next-poc
 sources:
-  - packages/page-module/src/registry/context.tsx
-  - packages/page-module-next
-verified_at: ed0e9b0423
+  - TIX-PASSPORT/packages/page-module/src/registry/context.tsx
+  - TIX-PASSPORT/packages/page-module-next
+  - TIX-HOMEPAGE-NEXT-FE/package.json
+  - TIX-HOMEPAGE-NEXT-FE/pages/home/components/HomePageModule/index.tsx
+verified_at:
+  TIX-PASSPORT: ed0e9b0423
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
 updated: 2026-10-16
 status: branch-only
-tags: [repo/passport, kind/decision]
+tags: [repo/passport, repo/homepage-fe, kind/decision]
 ---
 
 # page-module-next POC
@@ -32,7 +36,7 @@ The goal is a `next/dynamic` variant of [[passport-page-module]] for Next.js con
 The package is intentionally **not** `private`, and changesets config has `fixed: [["@tiket/passport*"]]`. Any release from main would publish it. See [[changesets-fixed-versioning]].
 
 ## Validation
-Validate in TIX-HOMEPAGE-NEXT-FE, which is outside this workspace.
+Validate in TIX-HOMEPAGE-NEXT-FE. Its branch `origin/feat/page-module-next` (head `a15eeeb6`, 3 commits ahead of `main`) replaces `@tiket/passport-page-module` with `@tiket/passport-page-module-next@0.0.0-alpha-3618-20261015075753`, a snapshot from Passport PR #3618. `origin/main` (`408983f6`) still imports the root `@tiket/passport-page-module` `12.5.0` ([[homepage-fe-architecture]]).
 
 ## Known follow-up
 product-card imports runtime utils from the page-module **root**, which is a circular dependency. That puts about 5 small page-module dist utils in the initial chunk next to the src copies. It's harmless for contexts, because they live in page-module-shared. The fix belongs in [[passport-product-card]].
@@ -40,4 +44,5 @@ product-card imports runtime utils from the page-module **root**, which is a cir
 ## Sources
 - Branch `feat/page-module-next-poc`: commits `3189c5e`, `271f635`, `ed0e9b0423`
 - `.changeset/config.json` on `origin/main`
+- TIX-HOMEPAGE-NEXT-FE `package.json` on `origin/feat/page-module-next` and `origin/main`; `git log origin/main..origin/feat/page-module-next`
 - Migrated from Claude memory `page-module-next-poc` (2026-10-14)

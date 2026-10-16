@@ -3,6 +3,7 @@ title: Dialog
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-dialog"
+umbrella: true
 sources:
   - packages/dialog/src
   - packages/dialog/package.json

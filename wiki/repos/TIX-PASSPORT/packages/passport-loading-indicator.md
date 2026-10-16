@@ -3,6 +3,7 @@ title: LoadingIndicator
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-loading-indicator"
+umbrella: true
 sources:
   - packages/loading-indicator/src
   - packages/loading-indicator/package.json

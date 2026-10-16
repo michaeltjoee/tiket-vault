@@ -3,6 +3,7 @@ title: OtpForm
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-otp-form"
+umbrella: true
 sources:
   - packages/otp-form/src
   - packages/otp-form/package.json

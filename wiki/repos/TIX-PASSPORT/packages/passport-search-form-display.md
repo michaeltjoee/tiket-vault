@@ -3,6 +3,7 @@ title: SearchFormDisplay
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-search-form-display"
+umbrella: true
 sources:
   - packages/search-form-display/src
   - packages/search-form-display/package.json

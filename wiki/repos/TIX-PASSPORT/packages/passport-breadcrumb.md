@@ -3,6 +3,7 @@ title: Breadcrumb
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-breadcrumb"
+umbrella: true
 sources:
   - packages/breadcrumb/src
   - packages/breadcrumb/package.json

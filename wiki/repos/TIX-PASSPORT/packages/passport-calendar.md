@@ -3,6 +3,7 @@ title: Calendar
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-calendar"
+umbrella: true
 sources:
   - packages/calendar/src
   - packages/calendar/package.json

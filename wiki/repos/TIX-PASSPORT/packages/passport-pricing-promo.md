@@ -3,6 +3,7 @@ title: Pricing & Promo
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-pricing-promo"
+umbrella: true
 sources:
   - packages/pricing-promo/src
   - packages/pricing-promo/package.json

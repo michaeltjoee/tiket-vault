@@ -3,6 +3,7 @@ title: Sidebar (My Account)
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-sidebar"
+umbrella: true
 sources:
   - packages/sidebar/src
   - packages/sidebar/package.json

@@ -3,6 +3,7 @@ title: Toggle
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-toggle"
+umbrella: true
 sources:
   - packages/toggle/src
   - packages/toggle/package.json

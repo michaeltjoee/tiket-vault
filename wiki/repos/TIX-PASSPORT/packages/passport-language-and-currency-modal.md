@@ -3,6 +3,7 @@ title: LanguageAndCurrencyModal
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-language-and-currency-modal"
+umbrella: true
 sources:
   - packages/language-and-currency-modal/src
   - packages/language-and-currency-modal/package.json

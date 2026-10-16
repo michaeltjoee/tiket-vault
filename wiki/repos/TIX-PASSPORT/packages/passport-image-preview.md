@@ -3,6 +3,7 @@ title: Image Preview
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-image-preview"
+umbrella: true
 sources:
   - packages/image-preview/src
   - packages/image-preview/package.json

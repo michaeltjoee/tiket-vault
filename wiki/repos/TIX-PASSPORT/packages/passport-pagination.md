@@ -3,6 +3,7 @@ title: Pagination
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-pagination"
+umbrella: true
 sources:
   - packages/pagination/src
   - packages/pagination/package.json

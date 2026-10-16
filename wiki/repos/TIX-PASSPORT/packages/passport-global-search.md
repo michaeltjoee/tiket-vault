@@ -3,6 +3,7 @@ title: Global Search
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-global-search"
+umbrella: true
 sources:
   - packages/global-search/src
   - packages/global-search/package.json

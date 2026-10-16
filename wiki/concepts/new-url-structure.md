@@ -1,7 +1,7 @@
 ---
 title: New URL structure (/{lang}-{country}/)
 kind: concept
-repos: [TIX-REACT-COMMON, TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE]
+repos: [TIX-REACT-COMMON, TIX-PASSPORT, TIX-REACT-REMOTE, TIX-NEXT-PAYMENT-FE, TIX-FINTECH-NEXT-FE, TIX-HOMEPAGE-NEXT-FE, TIX-GROWTH-NEXT-FE]
 sources:
   - TIX-REACT-COMMON/packages/react-common-utilities/src/isNewURLStructure
   - TIX-REACT-COMMON/packages/react-common-fetch-client/src/client/mandatoryFetchHeaders.ts
@@ -11,15 +11,21 @@ sources:
   - TIX-PASSPORT/packages/utils/src/context.tsx
   - TIX-FINTECH-NEXT-FE/middleware.page.ts
   - TIX-NEXT-PAYMENT-FE/middleware.page.ts
+  - TIX-HOMEPAGE-NEXT-FE/components/providers/AppProvider.tsx
+  - TIX-HOMEPAGE-NEXT-FE/components/MobileHeader/MobileHeader.tsx
+  - TIX-GROWTH-NEXT-FE/middleware.page.ts
+  - TIX-GROWTH-NEXT-FE/lib/utils/url.ts
 verified_at:
   TIX-REACT-COMMON: 14597c4e
   TIX-PASSPORT: 7a33010aca
   TIX-REACT-REMOTE: 281778b
   TIX-NEXT-PAYMENT-FE: 9e92b20bb
   TIX-FINTECH-NEXT-FE: 5833b842
+  TIX-HOMEPAGE-NEXT-FE: 408983f6
+  TIX-GROWTH-NEXT-FE: d4162e3
 updated: 2026-10-16
 status: current
-tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe]
+tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/payment-fe, repo/fintech-fe, repo/homepage-fe, repo/growth-fe]
 ---
 
 # New URL structure
@@ -37,6 +43,8 @@ tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/p
 | Passport | `PassportProvider isNewURLStructure` | [[passport-header]], [[passport-country-and-currency-modal]], [[passport-global-popup]], [[passport-wishlist]], [[passport-bottom-tab-navigation]] build prefixed links |
 | TIX-FINTECH-NEXT-FE | — | middleware rewrites `/{lang}-{country}/<app-router-path>` to the unprefixed path, login redirects add the prefix, refund keeps it, gift-card tracking reports `oldURL`/`newURL` ([[fintech-fe-architecture]], [[fintech-fe-refund]], [[fintech-fe-gift-card]]) |
 | TIX-NEXT-PAYMENT-FE | — | local URLs look like `/id-sg/payment?...` ([[payment-fe-workflows]]) |
+| TIX-HOMEPAGE-NEXT-FE | — | `middlewareData.isNewURLStructure` goes to `PassportProvider` and `MobileHeader`, and promo `VoucherComponent` switches its base URL on it. `RemoteGoogleOneTap` gets a hard-coded `isNewURLStructure={false}` on the destination, explore and promo pages ([[homepage-fe-architecture]]) |
+| TIX-GROWTH-NEXT-FE | — | middleware passes `skipUrlStructureMiddleware: true` for `/stories/**`, so stories are never restructured. The co-brand page uses its own `isNewURLStructure(url)` in `lib/utils/url.ts`, a different, case-insensitive regex without the `to-do` exclusion ([[growth-fe-architecture]], [[growth-fe-affiliate]]) |
 
 ## Gotchas
 - Currency is not part of the path. It comes from the `tiket_currency` cookie or the middleware, and the defaults differ by URL style (IDR vs USD). See [[multi-currency]].
@@ -45,6 +53,7 @@ tags: [kind/concept, repo/react-common, repo/passport, repo/react-remote, repo/p
 
 ## Where it shows up
 Pages that link here:
+- TIX-GROWTH-NEXT-FE: [[growth-fe-affiliate]], [[growth-fe-architecture]], [[growth-fe-sitemap]], [[growth-fe-stories]]
 - TIX-REACT-COMMON: [[react-common-utilities]]
 - concepts: [[analytics-core-attributes]], [[multi-currency]], [[tiket-next-core]]
 
@@ -54,3 +63,5 @@ Pages that link here:
 - TIX-PASSPORT `packages/utils/src/context.tsx`; `git grep -l isNewURLStructure origin/main -- packages`
 - TIX-FINTECH-NEXT-FE `middleware.page.ts`, `lib/middlewares/validateSessionAppRouter.ts`, `app/gift-card/tracking/helper.ts`
 - TIX-NEXT-PAYMENT-FE `middleware.page.ts`, `package.json` (`codegen:*` URLs)
+- TIX-HOMEPAGE-NEXT-FE `components/providers/AppProvider.tsx`, `components/MobileHeader/MobileHeader.tsx`, `pages/promo/components/VoucherComponent/VoucherComponent.tsx`, `pages/{destination/[slug],explore/[slug],promo/**}/index.page.tsx`
+- TIX-GROWTH-NEXT-FE `middleware.page.ts`, `lib/utils/url.ts`, `pages/affiliate/c/[slug].page.tsx`

@@ -3,6 +3,7 @@ title: QuantityEditor
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-quantity-editor"
+umbrella: true
 sources:
   - packages/quantity-editor/src
   - packages/quantity-editor/package.json

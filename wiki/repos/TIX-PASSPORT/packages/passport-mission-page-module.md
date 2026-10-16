@@ -3,6 +3,7 @@ title: MissionPageModule
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-mission-page-module"
+umbrella: true
 sources:
   - packages/mission-page-module/src
   - packages/mission-page-module/package.json

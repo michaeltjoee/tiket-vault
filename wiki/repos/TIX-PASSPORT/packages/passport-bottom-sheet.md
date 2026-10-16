@@ -3,6 +3,7 @@ title: Bottom Sheet
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-bottom-sheet"
+umbrella: true
 sources:
   - packages/bottom-sheet/src
   - packages/bottom-sheet/package.json

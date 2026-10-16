@@ -3,6 +3,7 @@ title: Bottom App Bar
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-bottom-app-bar"
+umbrella: true
 sources:
   - packages/bottom-app-bar/src
   - packages/bottom-app-bar/package.json

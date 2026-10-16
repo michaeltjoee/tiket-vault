@@ -3,6 +3,7 @@ title: Card
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-card"
+umbrella: true
 sources:
   - packages/card/src
   - packages/card/package.json

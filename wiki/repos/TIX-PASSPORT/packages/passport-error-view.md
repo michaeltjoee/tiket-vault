@@ -3,6 +3,7 @@ title: Error View
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-error-view"
+umbrella: true
 sources:
   - packages/error-view/src
   - packages/error-view/package.json

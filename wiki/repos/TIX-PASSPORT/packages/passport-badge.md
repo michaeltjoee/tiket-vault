@@ -3,6 +3,7 @@ title: Badge
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-badge"
+umbrella: true
 sources:
   - packages/badge/src
   - packages/badge/package.json

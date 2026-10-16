@@ -3,6 +3,7 @@ title: Button
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-button"
+umbrella: true
 sources:
   - packages/button/src
   - packages/button/package.json

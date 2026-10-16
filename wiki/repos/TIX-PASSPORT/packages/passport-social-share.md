@@ -3,6 +3,7 @@ title: SocialShare
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-social-share"
+umbrella: true
 sources:
   - packages/social-share/src
   - packages/social-share/package.json

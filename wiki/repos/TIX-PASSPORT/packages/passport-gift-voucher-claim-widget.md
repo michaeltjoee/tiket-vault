@@ -3,6 +3,7 @@ title: Gift Voucher Claim Widget
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-gift-voucher-claim-widget"
+umbrella: true
 sources:
   - packages/gift-voucher-claim-widget/src
   - packages/gift-voucher-claim-widget/package.json

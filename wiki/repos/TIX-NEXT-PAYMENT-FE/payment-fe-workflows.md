@@ -25,6 +25,8 @@ tags: [repo/payment-fe, kind/workflows]
 
 # TIX-NEXT-PAYMENT-FE workflows
 
+> Local setup (Node 24, HTTPS dev server, MSW mock mode), check commands, git hooks, tests, CI (Jenkins merge gate plus GitHub Actions) and the changesets release with label-driven prereleases. Adds what AGENTS.md leaves out.
+
 AGENTS.md is the team-shared guide for agents and humans (commands, contexts, endpoint list, styling, i18n, testing rules). Read it before changing code. This page adds what it leaves out, and notes where it is out of date.
 
 ## Local setup

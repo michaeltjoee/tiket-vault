@@ -3,6 +3,7 @@ title: Footer
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-footer"
+umbrella: true
 sources:
   - packages/footer/src
   - packages/footer/package.json

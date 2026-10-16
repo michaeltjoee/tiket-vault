@@ -3,6 +3,7 @@ title: SnakeAnimation
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-snake-animation"
+umbrella: true
 sources:
   - packages/snake-animation/src
   - packages/snake-animation/package.json

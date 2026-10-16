@@ -3,6 +3,7 @@ title: ProgressStepper
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-progress-stepper"
+umbrella: true
 sources:
   - packages/progress-stepper/src
   - packages/progress-stepper/package.json

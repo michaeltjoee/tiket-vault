@@ -3,6 +3,7 @@ title: PromoCodePopup
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-promo-code-popup"
+umbrella: true
 sources:
   - packages/promo-code-popup/src
   - packages/promo-code-popup/package.json

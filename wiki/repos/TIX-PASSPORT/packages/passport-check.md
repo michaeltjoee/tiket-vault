@@ -3,6 +3,7 @@ title: Check
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-check"
+umbrella: true
 sources:
   - packages/check/src
   - packages/check/package.json

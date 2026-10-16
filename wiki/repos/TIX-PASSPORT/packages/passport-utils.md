@@ -3,6 +3,7 @@ title: Utils
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-utils"
+umbrella: true
 sources:
   - packages/utils/src
   - packages/utils/package.json

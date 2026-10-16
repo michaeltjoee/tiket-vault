@@ -22,6 +22,8 @@ tags: [repo/react-remote, kind/architecture]
 
 # TIX-REACT-REMOTE architecture
 
+> How the Express + module federation service is wired: the exposes map and server registry that must list the same keys, the client and server webpack builds, the mount contract, SSR prerender and caching, and how hosts load remotes.
+
 ## Layout
 ```
 exposes.config.js        key → ./src/components/<key>/bootstrap  (the federation "exposes" map)

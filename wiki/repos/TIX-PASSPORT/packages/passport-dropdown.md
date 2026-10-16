@@ -3,6 +3,7 @@ title: Dropdown
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-dropdown"
+umbrella: true
 sources:
   - packages/dropdown/src
   - packages/dropdown/package.json

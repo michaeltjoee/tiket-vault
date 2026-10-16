@@ -3,6 +3,7 @@ title: SearchWidgetTtd
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-search-widget-ttd"
+umbrella: true
 sources:
   - packages/search-widget-ttd/src
   - packages/search-widget-ttd/package.json

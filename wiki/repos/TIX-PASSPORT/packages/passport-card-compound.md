@@ -3,6 +3,7 @@ title: Card Compound
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-card-compound"
+umbrella: true
 sources:
   - packages/card-compound/src
   - packages/card-compound/package.json

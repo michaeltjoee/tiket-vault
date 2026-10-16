@@ -24,3 +24,10 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 ## [2026-10-16] ingest | add TIX-GROWTH-NEXT-FE (growth-fe) @ d4162e3: 11 pages (overview, architecture, workflows, 8 features)
 - schema: repo table row; wiki-sync `scan.sh` unit roots (`pages app`)
 - notable on main: open redirect in `isRedirectWhitelistDomain` (metasearch), committed `sonar.login` token, stories landing/tag bugs, Passport pinned at 8.0.0
+## [2026-10-16] update | split index.md into generated per-repo indexes loaded by a SessionStart hook
+- New `scripts/build-index.py` (`--check`), `scripts/commit.sh`, `scripts/session-index.sh`. Index files are generated: root `index.md`, `wiki/shared-index.md`, `wiki/repos/<REPO>/<slug>-index.md`, and the `passport-packages` table rows.
+- Passport session index drops the 130 package lines (naming rule + catalog link). Session load: 53 KB → 3.7–12.6 KB depending on repo.
+- `umbrella: true` added to 98 Passport package pages (matches `packages/passport/package.json` at 7a33010aca); catalog `passport-button-slider` purpose fixed (was a wrong description).
+- `> ` summary lines added to payment-fe-workflows, gtm-extras-workflows, react-remote-architecture, react-remote-workflows, fintech-fe-workflows.
+- TIX-HOMEPAGE-NEXT-FE (408983f6) and TIX-GROWTH-NEXT-FE (d4162e3) added to `repos:` of 23 shared pages, verified against origin/main.
+- Schema (CLAUDE.md) updated: generated layer, required `> ` line, `umbrella:` field, `kind/index`, commit via `scripts/commit.sh`.

@@ -3,6 +3,7 @@ title: Divider
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-divider"
+umbrella: true
 sources:
   - packages/divider/src
   - packages/divider/package.json

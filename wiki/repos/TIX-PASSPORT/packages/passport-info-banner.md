@@ -3,6 +3,7 @@ title: Info Banner
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-info-banner"
+umbrella: true
 sources:
   - packages/info-banner/src
   - packages/info-banner/package.json

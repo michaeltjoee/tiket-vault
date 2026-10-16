@@ -3,6 +3,7 @@ title: PromoCarousel
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-promo-carousel"
+umbrella: true
 sources:
   - packages/promo-carousel/src
   - packages/promo-carousel/package.json

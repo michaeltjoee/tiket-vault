@@ -3,6 +3,7 @@ title: Figure
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-figure"
+umbrella: true
 sources:
   - packages/figure/src
   - packages/figure/package.json

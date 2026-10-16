@@ -3,6 +3,7 @@ title: PageControl
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-page-control"
+umbrella: true
 sources:
   - packages/page-control/src
   - packages/page-control/package.json

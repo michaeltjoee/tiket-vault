@@ -3,6 +3,7 @@ title: Floating Button
 repo: TIX-PASSPORT
 kind: package
 npm: "@tiket/passport-floating-button"
+umbrella: true
 sources:
   - packages/floating-button/src
   - packages/floating-button/package.json
