@@ -193,6 +193,7 @@ Every wiki page, with one line each. The agent maintains this file (see [[CLAUDE
 - [[payment-fe-payment-link]] — Self-contained App Router payment flow (landing → confirm → complete) for orders paid through a shared payment link.
 - [[payment-fe-payment]] — The main checkout payment flow: choose a method, apply promo or points, submit, then confirm and poll to completion. Pages Router routes, with feature code in `app/payment/`.
 - [[payment-fe-root]] — `app/(root)/` holds only a leftover stylesheet. The App Router root lives in the files directly under `app/`.
+- [[payment-fe-smart-pay]] — The member's saved payment methods page ("SPM"): list, link and unlink e-wallets, pay-later, OneKlik, saved cards and bank accounts, plus the callback page that third-party linking flows return to. Pages Router only.
 
 ### TIX-FINTECH-NEXT-FE
 - [[fintech-fe-overview]] — Next.js 16 app (`tix-fintech-next-fe`, v1.4.0, private) serving tiket.com's fintech/platform products: insurance (claim center, standalone purchase, post-booking popup), refund and gift card.
@@ -216,6 +217,22 @@ Every wiki page, with one line each. The agent maintains this file (see [[CLAUDE
 - [[gtm-extras-helpers]] — `helpers.js`: globals that replace GTM variables and trigger conditions for every vendor script, plus the `temp-*` hotel data patch.
 - [[gtm-extras-polaris]] — Copies `polaris_id` query values into `window.gtm.sessionSource` so GTM tags can attribute the session.
 - [[gtm-extras-tiktok]] — TikTok Pixel bootstrap plus Search, ViewContent and InitiateCheckout events for flight and hotel dynamic travel ads, with SPA navigation hooks.
+
+### TIX-HOMEPAGE-NEXT-FE
+- [[homepage-fe-overview]] — tiket.com's discovery web app: the home page, destination and explore (dynamic landing) pages, promo list and detail, voucher box and the cross-sell trip offer/prize pages, all built from [[passport-page-module]] content.
+- [[homepage-fe-architecture]] — A Pages Router app where every route is `getServerSideProps` + React Query. The page body is mostly a Passport `PageModule` fed by `tix-home` or `tix-promotion-page`, and the header and footer are react-remote widgets.
+- [[homepage-fe-workflows]] — Use pnpm 10 on Node 24. Vitest (vmThreads + istanbul) runs the tests, Jenkins runs `tix-gatekeeper` on PRs, changesets versions the app, and PR labels cut prerelease git tags. Local dev needs HTTPS on `local.tiket.com`.
+- [[homepage-fe-api]] — Five App Router route handlers. They are the only `app/` code in this Pages Router app: token create/refresh and client post-log (re-exported from `@tiket/next`), plus a session validate proxy and a ping.
+- [[homepage-fe-app-shell]] — The Pages Router frame around every route: the provider tree, fonts, meta and canonical, site-wide JSON-LD, GTM bootstrap, remote config and scripts, the error and 404 pages, and the PWA offline fallback.
+- [[homepage-fe-components]] — The 22 cross-feature folders under `components/`: the provider tree, remote-widget wrappers, page-module image renderers, the DLP content, headers, loaders and error views. Feature-only UI lives under each `pages/<feature>/components` instead.
+- [[homepage-fe-cross-sell-trip]] — The "Trip View" cross-sell campaign (added in 4.6.0). The offer page shows a trip's progress and a `CROSS_SELL_LANDING_PAGE` page-module feed. The prize page claims or shows the reward. Both are login-only, and the data comes from `tix-xsell-engine`.
+- [[homepage-fe-destination-preview]] — A CMS preview of an unpublished travel-guide page, by draft id. It renders the destination page's `Layout` against the `tix-home` admin preview endpoint.
+- [[homepage-fe-destination]] — A CMS-built travel-guide page for a destination: image slider, title, tags, description, a page-module body with a "next section" floating button, travel tips and other destinations. Content is `tix-home` page modules of type `TRAVEL_GUIDE`.
+- [[homepage-fe-explore-preview]] — A CMS preview of a dynamic landing page by draft id. It renders the same `DynamicLandingPageContent` as `/explore` from the `tix-home` admin preview endpoint, with `noindex`.
+- [[homepage-fe-explore]] — The CMS "dynamic landing page" (DLP, screen `dynamicPage`): a campaign page built from a `LANDING_PAGE` page-module set in `tix-home`, with a hero banner, anchor navigation, share and auto-scroll to a `#module` hash.
+- [[homepage-fe-home]] — The tiket.com home page: hero banner, vertical icons, desktop search widgets and a `HOME_V2` page-module feed from `tix-home`, with the remote header/footer, global popup, Google One Tap and an SSO notice layered on top.
+- [[homepage-fe-promo]] — tiket.com's promo pages. The list has category tabs and sub-chips plus a voucher-box entry point. The detail page renders `tix-promotion-page` modules and promo-code cards. The preview renders a CMS draft. All of it is fetched in the browser, and only bots get server-side meta.
+- [[homepage-fe-voucher-box]] — A logged-in user's gift vouchers (GV) from `tix-promotion-page` cross-sell, with filter, sort and "new" badges. A `VOUCHER_BOX` page-module area sits above the list. Guests get a login prompt.
 
 ## Concepts
 - [[ab-testing]] — Experiments and rollout flags run on **Mixpanel feature flags** (older comments say Amplitude). [[react-common-ab-test]] provides a client hook and a server fetch. Passport widgets read flags through it, and hosts can pre-fetch variants on the server and pass them down as `abTestOnServerResponse`.

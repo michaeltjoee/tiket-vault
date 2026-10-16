@@ -10,3 +10,11 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 - link pass: passport-passport → passport-umbrella, changesets-release-flow → changesets-fixed-versioning; insurance-popup-api → tix-insurance-core#Popup display API; passport-design-system → passport-overview; parcel-bundling unlinked; gtm-extras-overview linked from all GTM pages; passport-workflows scaffold step corrected (create:component already wires the umbrella)
 - ingest: raw/notes/2026-10-16-squash-merge-prerelease-skill.md (snapshot of the squash-merge-prerelease skill) → prerelease-squash-merge
 - first run hit the session limit; resumed same day
+
+## [2026-10-16] ingest | add TIX-HOMEPAGE-NEXT-FE (homepage-fe) @ 408983f6: 14 pages (overview, architecture, workflows, 10 features, components)
+- schema + ~/.claude/CLAUDE.md + wiki-sync scan.sh now include the repo (unit roots: pages/, app/)
+
+## [2026-10-16] update | payment-fe + fintech-fe: cover Pages Router `pages/` trees (missed by first build)
+- new [[payment-fe-smart-pay]]; rewrote router sections of [[payment-fe-architecture]], [[payment-fe-overview]], [[payment-fe-payment]], [[fintech-fe-architecture]]
+- AGENTS.md in TIX-NEXT-PAYMENT-FE is wrong on main: says Next 14 App Router only, actual Next 16.3.6 hybrid with /payment and /smart_pay on Pages Router
+- schema: documented cross-repo `verified_at` map + `REPO/path` sources convention

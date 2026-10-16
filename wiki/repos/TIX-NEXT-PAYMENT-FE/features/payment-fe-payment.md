@@ -7,6 +7,7 @@ sources:
   - app/hooks
   - pages/payment
   - components/providers/PaymentPageProvider
+  - components/AnalyticsProvider
   - lib/services/landingData
   - lib/endpoint.ts
   - lib/config.ts
@@ -18,12 +19,19 @@ tags: [repo/payment-fe, kind/feature]
 ---
 
 # Payment landing, confirm and complete (/payment)
-> The main checkout payment flow: choose a method, apply promo or points, submit, then confirm and poll to completion. Pages Router routes, with feature code in `app/payment/`.
+> The main checkout payment flow: choose a method, apply promo or points, submit, then confirm and poll to completion. The routes are Pages Router pages in `pages/payment/`, and the newer feature modules sit in `app/payment/`, which is not a route.
 
 ## What it does
 This is the payment page every tiket.com vertical (flight, hotel, train, car, gift card, insurance…) redirects to with `?order_id&order_hash`. The landing loads the order and payment options, lets the user pick a payment method (recommended tiles, groups, saved cards, new card form, linked e-wallets), apply a promo or tiket points, pick card or pay-later installments, and submit. Submitting returns a redirect: a third party or 3DS page, `/payment/{method}/confirm` (VA, QR, instructions), or `/payment/{method}/complete` (status polling and success). [[payment-fe-downpay]] is mounted inside this landing.
 
-**`app/payment/` is not a route.** It has no `page.page.tsx`. It holds the newer, App-Router-style feature modules (promo, tiket points, installment, credit-card request, account linkage) that the Pages Router landing imports. The routes themselves are still in `pages/payment/`.
+## How `pages/payment` and `app/payment` relate
+They are **one feature split across two folders**, not the same feature in both routers and not separate routes:
+- `pages/payment/` (165 files) owns **every `/payment/**` route**. All six route files are Pages Router pages with `getServerSideProps`.
+- `app/payment/` (399 files) owns **no route**. There is no `page.page.tsx`, `layout.page.tsx` or `route.api.ts` under it, and git history shows none was ever added there (`git log --diff-filter=A -- 'app/payment/**/page*'` is empty). It is a feature-module folder that `pages/payment/` imports: `PromoContainer`, `TiketPointsContainer`, `PromoTixpointResolverProvider`, `InstallmentContext`, `CreditcardRequestProvider`, `useCheckAvailabilityNewCard`, the `useRefetchLanding` helpers and promo types/utils. Nothing in `app/` imports from `pages/payment`, and the App Router payment link does not use `app/payment` at all.
+
+History: the routes started as `pages/v4` and were renamed to `pages/payment` in the URL restructure (`77ee868c1`, #941, 2025-10-13), which stayed on the Pages Router. `app/payment/` first appeared with Infinity Promo (#1326, 2026-05-20, reverted in #1376, re-landed as `6d0b2c385` #1430 on 2026-06-25). That change deleted the old `components/Promo/` and rebuilt promo under `app/payment/`. New landing work follows the README ("`pages/` = Legacy Pages Router (being migrated)") and AGENTS.md ("NEVER use Pages Router for new pages") by going into `app/`, but the route itself has not moved, and nothing on main has started moving it.
+
+So "migration in progress" is true only at the module level. Moving the route would still need the provider tree (`PaymentPageProvider`), `getServerSideProps` and next.config `i18n` locale prefixes replaced, and some `app/payment` hooks are Pages-Router-bound (see Gotchas).
 
 ## Routes & entry points
 | URL (after rewrites) | File | Notes |
@@ -54,22 +62,26 @@ Landing-local in `pages/payment/components/`: `LpgBanner`, `PageLeaveDialog`, `O
 From the shared `components/` ([[payment-fe-components]]): `Groups`, `PaymentMethod`, `PaymentTile`, `SavedCards`, `CardComponentV2`, `Installment`, `OrderSummary`, `PriceSummary`, `SubmitPayment`, `LoginBox`, `Countdown`, `Header`, `Stepper`, `TnC`, `GTMHandler`, `Infinity/PopupAppliedPromoError`.
 
 ## Tracking
-GTM through `lib/hooks/useGTM` (`pushGTMImpressionV2`, `pushGTMStatusV2`, `pushGTMClickV2`), `components/GTMHandler` and `lib/tracker/GTM.ts`. `gtmVerticalName` maps verticals. Page visits come from `usePageVisitAnalytics` in `AppRouterProvider`/`AppProvider` (`screenName: paymentLanding` for `/payment` and `/v4`). Promo tracking helpers: `PromoContainer/helpers/createTrackingEventProperties.ts`, `hooks/useApplyPromo/tracker.ts`. See [[gtm-datalayer-tracking]].
+GTM through `lib/hooks/useGTM` (`pushGTMImpressionV2`, `pushGTMStatusV2`, `pushGTMClickV2`), `components/GTMHandler` and `lib/tracker/GTM.ts`. `gtmVerticalName` maps verticals. Screen names on these Pages Router routes come from `components/AnalyticsProvider` (mounted in `AppProvider`). It sets `window.eventProperties` from the path: `*/confirm` gives `paymentConfirmation`, `/payment*` or `/next/v4*` gives `paymentLanding`, and `*/complete` is left empty on purpose ("as requested by PM"). Then it calls `window.commonAnalytic.updateAnalytics()`. `usePageVisitAnalytics` runs only in the App Router's `AppRouterProvider`. `AppProvider` exports a `pageVisitAnalyticsConfig`, but nothing uses it. Promo tracking helpers: `PromoContainer/helpers/createTrackingEventProperties.ts`, `hooks/useApplyPromo/tracker.ts`. See [[gtm-datalayer-tracking]].
 
 ## Tests
-110 Vitest specs in `app/payment/`, 7 in `app/hooks/`, 72 in `pages/`. Playwright (`e2e/scenarios/clean/*`) covers landing, groups, promo, tiket points, price summary, confirm (account info, BCA VA, how-to-pay, submit, status-not-allowed), callback, complete and back navigation. `e2e/scenarios/infinity/` covers linkage and pay-later (BLU, DANA, GoPay/OVO, PL, PL36). The Playwright workflow is manual-only for now (see [[payment-fe-workflows]]).
+110 Vitest specs in `app/payment/`, 7 in `app/hooks/`, 37 in `pages/payment/` (the other 35 `pages/` specs belong to [[payment-fe-smart-pay]]). Playwright (`e2e/scenarios/clean/*`) covers landing, groups, promo, tiket points, price summary, confirm (account info, BCA VA, how-to-pay, submit, status-not-allowed), callback, complete and back navigation. `e2e/scenarios/infinity/` covers linkage and pay-later (BLU, DANA, GoPay/OVO, PL, PL36). The Playwright workflow is manual-only for now (see [[payment-fe-workflows]]).
 
 ## Gotchas
 - AGENTS.md's "Promo Flow (Pages Router)" section points to `components/Promo/index.tsx`, `useApplyDiscount` and `lib/services/discount.ts`. **`components/Promo` does not exist on main.** The promo UI is now `app/payment/containers/PromoContainer` and calls the v2 promo endpoints, while AGENTS.md lists v1 paths.
 - There are two `API_ENDPOINT` objects: `lib/config.ts` (landing, groups, payment-method…) and `lib/endpoint.ts` (discount, order, payment, members, points). The landing imports the first one, `PromoContainer` the second.
 - `app/payment/hooks/` contains both `usePaymentMethodSelectionError.ts` and a `usePaymentMethodSelectionError/` folder.
+- `app/payment` lives in the App Router folder but is not App-Router-safe. `PromoContainer`'s `useAutomaticApplyPromoFromUrl` and `useRemovePromoFromQuery` import `useRouter` from `next/router`, which only works under the Pages Router.
+- Shared code imports from `pages/payment`: `components/BackButtonInterceptor` (from `CorporateBillingSuccess`), `components/OrderSummary/components/Flight/detailV4.tsx` (`RefundReschedule`), `lib/i18n/i18n.types.ts` (`HowToPay/types`) and `lib/types/entities/payment/paid-checker.ts` (`paymentComplete.types`). The dependency runs both ways.
 - Promo and points are disabled on DownPay repayment unless the order is `FLEXIBLE_PAYMENT` (`allowPromoAndPointsByDownpayType` in the landing).
 
 ## Sources
 - `pages/payment/index.page.tsx`, `pages/payment/[type]/{index,confirm/index,complete/index,callback/index}.page.tsx`, `pages/payment/payment-partner/index.page.tsx`
 - `pages/payment/hooks/useGetPaymentLandingPhase.ts`
-- `components/providers/PaymentPageProvider/PaymentPageProvider.tsx`
+- `components/providers/PaymentPageProvider/PaymentPageProvider.tsx`, `components/providers/AppProvider.tsx`, `components/AnalyticsProvider/index.tsx`
+- `app/payment/containers/PromoContainer/hooks/{useAutomaticApplyPromoFromUrl,useRemovePromoFromQuery}/*`
 - `app/payment/containers/PromoContainer/PromoContainer.tsx`, `app/payment/context/PromoContext/types.ts`, `app/payment/context/PromoTixpointResolverProvider/types.ts`, `app/payment/services/promo/*`, `app/payment/hooks/useRefetchLanding/index.ts`
 - `lib/services/landingData/*`, `lib/endpoint.ts`, `lib/config.ts`
 - `next.config.ts` (rewrites/redirects)
-- `AGENTS.md` (endpoint list, landing refresh triggers, promo flow)
+- `AGENTS.md` (endpoint list, landing refresh triggers, promo flow, "never Pages Router for new pages"), `README.md` (project structure)
+- git history: `77ee868c1` (#941 URL restructure, `pages/v4` → `pages/payment`), `3af267792`/`306cb88c2`/`6d0b2c385` (#1326/#1376/#1430 Infinity Promo creates `app/payment`)

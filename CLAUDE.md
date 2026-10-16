@@ -82,6 +82,16 @@ tags: [repo/passport, kind/package]
 ---
 ```
 
+Pages that span repos (concepts, entities, howto, decisions) put `repos: [..]` in place of `repo:`, and a map for `verified_at`. Their `sources` entries get a `<REPO>/` prefix:
+```yaml
+sources:
+  - TIX-REACT-REMOTE/webpack.config.js
+  - TIX-PASSPORT/docs/publishing.md
+verified_at:
+  TIX-REACT-REMOTE: 281778b
+  TIX-PASSPORT: 7a33010aca
+```
+
 ## Page templates
 
 **Library unit (package / remote component):**

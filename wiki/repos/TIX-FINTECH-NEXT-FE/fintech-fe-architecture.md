@@ -10,6 +10,11 @@ sources:
   - app/error.page.tsx
   - app/setup-react-cache-workaround.ts
   - pages/_app.page.tsx
+  - pages/_document.page.tsx
+  - pages/global.css
+  - app/error.module.scss
+  - app/globals.scss
+  - pages/myorder/smart-refund/index.page.tsx
   - components/providers
   - lib/fetch
   - lib/middlewares/validateSessionAppRouter.ts
@@ -27,6 +32,7 @@ tags: [repo/fintech-fe, kind/architecture]
 ---
 
 # TIX-FINTECH-NEXT-FE architecture
+> How the fintech app is wired: team code under `projects/` behind thin `app/` and `pages/` re-exports, which routes use which router and why, middleware, data fetching, build and error handling.
 
 ## Layout: team verticals under `projects/`
 Team code lives in `projects/{team}/{shared|product}/{feature}`; `app/` and `pages/` hold thin route re-exports (`export { default, generateMetadata } from '@insurance/claim-center/landing'`). Only `layout.page.tsx` may hold logic (provider wiring). Each re-export gets a spec asserting the module is defined (e.g. `app/insurance-claim/__tests__/pages.spec.tsx`). Rule source: `.claude/rules/project-structure.md`, `.claude/rules/project-route-reexports.md`; step-by-step move: `.cursor/skills/project-restructure/SKILL.md`.
@@ -44,6 +50,31 @@ Repo-wide infra stays at root: `@/lib/fetch`, `@/lib/test-utils`, `@/components/
 - **App Router**: `/gift-card`, `/insurance-claim`, `/api` (the `APP_ROUTER_PATHS` list in middleware). Root `app/layout.page.tsx` calls `setupServerGlobals()`, reads `getMiddlewareData()`, mounts `MSWInit`, and imports `setup-react-cache-workaround` (registers React `cache` with `@tiket/next`). Route layouts wrap children in `AppRouterProvider`.
 - **Pages Router**: insurance standalone, insurance popup, refund. `pages/_app.page.tsx` wraps everything in `ErrorBoundary` → `AppProvider`, imports passport design-token CSS, and renders `RemoteScripts`, `GTMScripts`, `ServiceWorkerScripts`. Pages can define `getLayout`.
 - `AppProvider` (Pages) vs `AppRouterProvider` (App) differ: only `AppProvider` passes a `customFetch` (`coreFetcher`) into `PassportProvider`, hydrates React Query `dehydratedState`, and adds `AnalyticsProvider`/`AppContext` (snackbar offset). `AppRouterProvider` instead runs `usePageVisitAnalytics` with a regex config (`/gift-card` → vertical `giftCard`, `/insurance-claim` → `insurance`). Both create a QueryClient with all refetch-on-* turned off.
+
+### What the 18 `pages/` files are
+None of them is a feature of its own. They are the 3 Pages Router root files, 11 route files that re-export from `projects/` (or redirect), and 4 re-export specs. Each route is covered by a feature page:
+
+| Files | Routes | Re-exports from | Page |
+|---|---|---|---|
+| `pages/insurance/{index,search}.page.tsx`, `pdp/[productId].page.tsx`, `checkout/[cartId].page.tsx` + `__tests__/pages.spec.tsx` | `/insurance`, `/insurance/search`, `/insurance/pdp/[productId]`, `/insurance/checkout/[cartId]` | `@insurance/standalone/*` | [[fintech-fe-insurance-standalone]] |
+| `pages/insurance-popup/[uniqueSignature].page.tsx` + `__tests__/page.spec.tsx` | `/insurance-popup/[uniqueSignature]` | `@insurance/popup` | [[fintech-fe-insurance-popup]] |
+| `pages/my-refund/v4/refunds/[...params].page.tsx` and `[orderId]/[orderDetailId]/[orderHash]/request/{orderDetails,refundMethod,refundPreview,refundConfirmation}/index.page.tsx` + `__tests__/pages.spec.tsx` | `/my-refund/v4/refunds/**` (the specific request steps win over the catch-all) | `@refund/*` | [[fintech-fe-refund]] |
+| `pages/myorder/smart-refund/index.page.tsx` + `index.spec.tsx` | `/myorder/smart-refund` | none: inline `getServerSideProps` redirect to `/my-refund/v4/refunds/{id}/{detailId}/{hash}/request/orderDetails` (keeping the `/xx-yy` prefix and any unused query), or `/yourorder` when IDs are missing | [[fintech-fe-refund]] |
+| `pages/_app.page.tsx`, `pages/_document.page.tsx`, `pages/global.css` | Pages root | n/a | this page |
+
+`pages/_document.page.tsx` is minimal: `<Html lang={locale ?? 'id'}>`, the default `Head`, `Main` and `NextScript`. Unlike TIX-NEXT-PAYMENT-FE ([[payment-fe-architecture]]) there is no CSP nonce. `pages/global.css` only defines `--space-20` and `--space-32`. The passport token CSS comes from the `_app` imports, not from this file.
+
+The App Router counterparts are `app/globals.scss` (passport `base.css` + `font-loader.css`, imported by `app/layout.page.tsx`) and `app/error.module.scss` (container padding and desktop-only footer for `app/error.page.tsx`). Pages Router errors go through `components/ErrorBoundary` in `_app` instead, because `app/error.page.tsx` only catches App Router segments.
+
+### Why both routers
+The repo has been hybrid since its first commit (`2ad507a7` "chore: setup project", #2, 2025-04-17). That commit created App Router `app/api` route handlers next to a Pages Router `pages/insurance/index.page.tsx`, `pages/404.page.tsx` and `_app`. After that, per git history:
+- **New products started on the App Router:** gift card (`a424e5e6` #5, 2025-07-22).
+- **Insurance and refund landed on the Pages Router:** claim center and insurance popup came in as migrations ("migration claim center" `fe35afe6` #107, 2025-07-30, under `pages/insurance/pages/*`). Insurance standalone followed (`00b9a64c` #58, 2025-08-20), then refund ("refund migration" `dcbefd2c` #366, 2026-08-03).
+- **One Pages → App move so far:** the claim center moved to `app/insurance/*` in "in-house flight disruption" (`0d226141` #172, 2025-11-18). The Next 16 migration (`99ede528` #359) renamed it to `app/insurance-claim/*` and moved its code to `projects/insurance/claim-center`.
+
+Insurance standalone, insurance popup and refund remain Pages Router routes. No commit or doc on main schedules moving them. Unlike TIX-NEXT-PAYMENT-FE, the repo's agent docs do not claim a single router: `.claude/rules/project-route-reexports.md` and the `project-restructure` skill give one re-export shape per router, and the `technical-solution` skill asks authors to state the Pages vs App Router scope.
+
+Gotcha: `pages/myorder/smart-refund/index.page.tsx` holds inline redirect logic, which breaks the "no inline page logic" re-export rule. It was added (#418, 2026-09-07) after that rule came in (#366).
 
 ## Middleware (`middleware.page.ts`)
 `chain([localeMiddleware, currencyMiddleware, rewriteMiddleware])` from `@tiket/next/server`. The custom `rewriteMiddleware`:
@@ -85,8 +116,10 @@ Rosetta-style dictionaries (`I18nDict` type + `en.ts`/`id.ts`), `useI18n()` in c
 
 ## Sources
 - `next.config.js`, `middleware.page.ts`, `tsconfig.json`
-- `app/layout.page.tsx`, `app/error.page.tsx`, `app/setup-react-cache-workaround.ts`, `pages/_app.page.tsx`
+- `app/layout.page.tsx`, `app/error.page.tsx`, `app/error.module.scss`, `app/globals.scss`, `app/setup-react-cache-workaround.ts`
+- `pages/_app.page.tsx`, `pages/_document.page.tsx`, `pages/global.css`, `pages/**/*.page.tsx` route re-exports and their specs, `pages/myorder/smart-refund/index.page.tsx`
 - `components/providers/AppProvider.tsx`, `components/providers/AppRouterProvider.tsx`
 - `lib/fetch/fetch.ts`, `lib/fetch/app-router/server.ts`, `lib/middlewares/validateSessionAppRouter.ts`
 - `docs/data-fetching.md`, `docs/deployment.md`, `docs/i18n.md`
-- `.claude/rules/project-structure.md`, `.claude/rules/project-route-reexports.md`, `.claude/rules/next-config-next16.md`, `.claude/rules/next-scripts-pnpm-webpack.md`, `.cursor/skills/project-restructure/SKILL.md`
+- `.claude/rules/project-structure.md`, `.claude/rules/project-route-reexports.md`, `.claude/rules/next-config-next16.md`, `.claude/rules/next-scripts-pnpm-webpack.md`, `.cursor/skills/project-restructure/SKILL.md`, `.cursor/skills/technical-solution/SKILL.md`
+- git history: `2ad507a7` (#2 setup), `a424e5e6` (#5 gift card), `00b9a64c` (#58 insurance standalone), `fe35afe6` (#107 claim center/popup migration), `0d226141` (#172 claim center to App Router), `99ede528` (#359 Next 16, `app/insurance` → `app/insurance-claim`), `dcbefd2c` (#366 refund migration), `9cfe5ae5` (#418 smart-refund redirect)

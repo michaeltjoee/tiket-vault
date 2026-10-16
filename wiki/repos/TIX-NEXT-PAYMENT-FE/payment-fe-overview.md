@@ -26,6 +26,8 @@ A Next.js app (`tix-next-payment-fe`, private, v3.0.1 on the baseline) deployed 
 
 README and AGENTS.md describe it as "Next.js 14 … React Query v3". **The baseline actually runs Next `^16.3.6`, React `^19.2.6` and `@tanstack/react-query ^5.90`.** It builds with webpack (`next build --webpack`).
 
+**It is a hybrid App Router + Pages Router app.** AGENTS.md says "App Router (`app` directory only)", but on main the two biggest flows, the payment landing/confirm/complete (`/payment/**`) and saved methods (`/smart_pay/**`), are Pages Router pages in `pages/` (300 files with `_app`, `_document`, `script.tsx`, `global.scss`). Only payment link, `/l/[id]` and `/api/*` are App Router routes. The app started on the Pages Router in 2021. `app/` arrived with the Next 14 upgrade (2024-09), and new routes have gone there since payment link (2025-11). New code for the Pages routes is written as non-route modules under `app/` (`app/payment`, `app/downpay`). The README's "legacy, being migrated" label and the AGENTS.md rule against new Pages pages describe the intent. The `/payment` and `/smart_pay` routes have not moved. Details and history: [[payment-fe-architecture]].
+
 ## Features
 | Area | Router | Page |
 |---|---|---|
@@ -36,12 +38,12 @@ README and AGENTS.md describe it as "Next.js 14 … React Query v3". **The basel
 | Route handlers `/api/*` (token, log, CSP report) | App | [[payment-fe-api]] |
 | `app/(root)` leftover and app root files | App | [[payment-fe-root]] |
 | Shared UI (`components/`, 59 folders) | both | [[payment-fe-components]] |
-| Saved payment methods `/smart_pay/**` (linking, binding, top-up, DANA, cards) | Pages | no page yet ([[payment-fe-smart-pay]]) |
+| Saved payment methods `/smart_pay/**` (linking, binding callbacks, OVO top-up, DANA, cards, bank accounts) | Pages | [[payment-fe-smart-pay]] |
 
 Payment flow (README): landing → landing refetch on promo/points/method/installment change → submit (redirect, confirm or complete URL) → status polling via `paid-checker` → success or error with retry.
 
 ## Tech stack
-- Next.js 16 (App + Pages Router), React 19, TypeScript 5.9, SCSS modules with passport design tokens (snake_case classes, base + desktop breakpoint per AGENTS.md), react-hook-form + Zod, dayjs, lottie, isomorphic-dompurify, `next-qrcode`.
+- Next.js 16 (App Router for payment link, `/l`, `/api`; Pages Router for `/payment` and `/smart_pay`), React 19, TypeScript 5.9, SCSS modules with passport design tokens (snake_case classes, base + desktop breakpoint per AGENTS.md), react-hook-form + Zod, dayjs, lottie, isomorphic-dompurify, `next-qrcode`.
 - Data: React Query v5, `fetchClient` from `@tiket/next`, MSW for mocks.
 - Quality: Vitest 4 + RTL, Playwright, Storybook 9, oxlint, oxfmt, stylelint, commitlint, husky, Sonar via Gatekeeper.
 - Integrations: Juspay HyperCheckout, Forter, GTM, Apple/Google Pay, e-wallet linkage (OVO, GoPay, DANA, BLU, BliPay, OneKlik), pay-later (Kredivo, BliBli PayLater).
@@ -59,13 +61,13 @@ End users through every vertical's checkout. In the other repos: TIX-FINTECH-NEX
 `pnpm test` (coverage, 90% team rule) · `pnpm run check-all` · `pnpm run type-check` · `pnpm run lint:js` (oxlint) · `pnpm run build`. Agents must not run `pnpm run dev` (AGENTS.md). Full list in [[payment-fe-workflows]].
 
 ## Where to read more
-- `AGENTS.md` (team-shared rules; partly out of date, see [[payment-fe-workflows]])
+- `AGENTS.md` (team-shared rules; partly out of date: the "app directory only" claim, Next 14, React Query v3, `components/Promo`; see [[payment-fe-architecture]] and [[payment-fe-workflows]])
 - `README.md` (hosts, old vs new URLs, deployment, Jenkins/Consul/Kibana/Grafana links)
 - `docs/` (coding convention, Forter, myBCA auto-redirect, order detail flow)
 - [[payment-fe-architecture]] for routing, middleware, providers and the data layer
 
 ## Sources
 - `package.json`, `README.md`, `AGENTS.md`, `next.config.ts`, `middleware.page.ts`
-- `app/`, `pages/`, `components/`, `lib/` (tree listing on `origin/main`)
+- `app/`, `pages/`, `components/`, `lib/` (tree listing on `origin/main`), git history of `app/` and `pages/` (see [[payment-fe-architecture]])
 - TIX-REACT-COMMON `packages/react-common-gatekeeper/src/sonar/projects/tix-next-payment-fe.ts`, `packages/react-common-fetch-client/src/client/helper.ts` (origin/master)
 - TIX-FINTECH-NEXT-FE `.cursor/rules/technical-solution.mdc` (origin/main)
