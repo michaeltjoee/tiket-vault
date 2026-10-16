@@ -1,0 +1,21 @@
+log.md
+  s_e62f4438443a6d::t_b2aa82d9acd4e3 21-23
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-smart-pay.md
+  s_e62f4438443a6d::t_ffa5a7c78221d7 9,64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "81627ccd4d2af5d3355a79f15ee1b9958d178c22",
+  "prompts": {},
+  "sessions": {
+    "s_e62f4438443a6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "12f2051b-7450-42fe-b061-24014babd583",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
