@@ -1,0 +1,134 @@
+wiki/entities/tix-insurance-core.md
+  s_7bf87e42a34744::t_88d749e8aa24d1 1-44
+wiki/howto/prerelease-squash-merge.md
+  s_7bf87e42a34744::t_8e5869771a103a 1-46,48-52
+  s_7bf87e42a34744::t_76ed300907f761 47
+wiki/entities/tix-wishlist-core.md
+  s_7bf87e42a34744::t_515b55964b8e54 1-24,28-42
+  s_7bf87e42a34744::t_3557d673afa5c8 25-27
+wiki/concepts/design-tokens.md
+  s_7bf87e42a34744::t_ca7967a328aa72 1-50
+wiki/concepts/ab-testing.md
+  s_7bf87e42a34744::t_3f89e08b59aade 1-50
+wiki/howto/add-new-passport-package.md
+  s_7bf87e42a34744::t_5989e31b9e2609 1-48
+wiki/concepts/analytics-core-attributes.md
+  s_7bf87e42a34744::t_e4c98698b1f239 34
+  s_7bf87e42a34744::t_0e970052dedb68 1-33,35-52
+wiki/concepts/eagle-eye-logging.md
+  s_7bf87e42a34744::t_7ebaf8cf5086ea 1-40
+  s_7bf87e42a34744::t_ae73cb44fbc06f 41-43
+wiki/concepts/multi-currency.md
+  s_7bf87e42a34744::t_d126f7e9b2fc5d 1-47
+  s_7bf87e42a34744::t_67c5cad8c7c4b8 48-50
+wiki/concepts/tiket-next-core.md
+  s_7bf87e42a34744::t_0392a9391bc730 1-61
+wiki/howto/passport-local-tooling.md
+  s_7bf87e42a34744::t_acc855834118c9 29-35,38,40
+  s_7bf87e42a34744::t_a6b89940da1c34 9
+wiki/concepts/passport-custom-fetch.md
+  s_7bf87e42a34744::t_83213c475993b9 1-52
+  s_7bf87e42a34744::t_ff38edadf26320 53-57
+wiki/concepts/central-error-handling.md
+  s_7bf87e42a34744::t_8ecf58599301e2 1-53
+wiki/concepts/new-url-structure.md
+  s_7bf87e42a34744::t_05356439aade14 1-56
+wiki/concepts/react-remote-ssr-prerender.md
+  s_7bf87e42a34744::t_21a325cd4bac3c 1-56
+wiki/concepts/cross-subdomain-storage.md
+  s_7bf87e42a34744::t_91ebc05b188cf7 1-45
+wiki/howto/release-passport-package.md
+  s_7bf87e42a34744::t_bd02705fa27b03 1-46
+wiki/concepts/passport-accessibility-font-scaling.md
+  s_7bf87e42a34744::t_dafb21a04fc6ed 1-48
+wiki/concepts/tiket-environments.md
+  s_7bf87e42a34744::t_2132cc0a778a3a 1-61
+wiki/entities/keen-slider.md
+  s_7bf87e42a34744::t_52d09609fae4d4 23
+  s_7bf87e42a34744::t_2c685fe9d103ea 1-22,24-35
+wiki/concepts/web-push-notifications.md
+  s_7bf87e42a34744::t_356caaf8a1cb14 1-37
+  s_7bf87e42a34744::t_4a348d89b68fcb 38-40
+wiki/concepts/webview-jsi-bridge.md
+  s_7bf87e42a34744::t_e7356f5f64b94f 1-57
+wiki/concepts/module-federation.md
+  s_7bf87e42a34744::t_f467c930f14d41 1-56
+  s_7bf87e42a34744::t_70a78c7da4b64b 57-66
+wiki/concepts/prerelease-flow.md
+  s_7bf87e42a34744::t_9e81fcd35419dc 1-70
+wiki/concepts/structured-diagnostic-logging.md
+  s_7bf87e42a34744::t_9311281ab747cd 1-45
+wiki/howto/run-tests-per-repo.md
+  s_7bf87e42a34744::t_e998f49594c5e4 1-74
+wiki/concepts/gtm-datalayer-tracking.md
+  s_7bf87e42a34744::t_b0d5d698637e77 42
+  s_7bf87e42a34744::t_fa7c92c2ca8222 1-41,43-63
+wiki/entities/kuber.md
+  s_7bf87e42a34744::t_c495f06aa5690f 1-38
+wiki/howto/local-https-certs.md
+  s_7bf87e42a34744::t_ddb99d3f64ea5c 1-63
+wiki/concepts/cross-app-routing.md
+  s_7bf87e42a34744::t_2cb2414c3f5514 1-44
+wiki/concepts/changesets-fixed-versioning.md
+  s_7bf87e42a34744::t_3e1a384d3a2639 1-69
+wiki/entities/tix-image-service.md
+  s_7bf87e42a34744::t_0ebbee84f7a373 1-33
+wiki/concepts/gatekeeper-ci.md
+  s_7bf87e42a34744::t_82d332eb38377b 1-57
+index.md
+  s_7bf87e42a34744::t_64563b7318b662 6-219,221-243,245-250,252-253,255-260
+log.md
+  s_7bf87e42a34744::t_ef8de048a6e9fe 6-12
+raw/notes/2026-10-16-squash-merge-prerelease-skill.md
+  s_7bf87e42a34744::t_5055382f7914e5 1-156
+wiki/repos/TIX-GTM-EXTRAS/gtm-extras-workflows.md
+  s_7bf87e42a34744::t_89e5aefa7c7034 18-19
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-ahrefs.md
+  s_7bf87e42a34744::t_8fc39e512b384b 16-17
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-facebook.md
+  s_7bf87e42a34744::t_ee00288cdcd11c 21-22
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-google-optimize.md
+  s_7bf87e42a34744::t_b6e80227f70426 16-17
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-helpers.md
+  s_7bf87e42a34744::t_83b1b3d9898481 17-18
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-polaris.md
+  s_7bf87e42a34744::t_73b85e5428c56a 16-17
+wiki/repos/TIX-GTM-EXTRAS/vendors/gtm-extras-tiktok.md
+  s_7bf87e42a34744::t_b72e248603f472 21-22
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-components.md
+  s_7bf87e42a34744::t_b6c4de2cc2800b 108
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-payment-link.md
+  s_7bf87e42a34744::t_93be32b6fea391 44
+wiki/repos/TIX-NEXT-PAYMENT-FE/payment-fe-architecture.md
+  s_7bf87e42a34744::t_9eb1dc4b3347df 93
+wiki/repos/TIX-NEXT-PAYMENT-FE/payment-fe-overview.md
+  s_7bf87e42a34744::t_9d89b7fde5a51b 51
+wiki/repos/TIX-NEXT-PAYMENT-FE/payment-fe-workflows.md
+  s_7bf87e42a34744::t_dd369028310462 78
+wiki/repos/TIX-PASSPORT/packages/passport-header.md
+  s_7bf87e42a34744::t_7b8a9668884a97 63
+wiki/repos/TIX-PASSPORT/packages/passport-insurance-pop-up.md
+  s_7bf87e42a34744::t_ba91a56aaf31c9 57
+wiki/repos/TIX-PASSPORT/packages/passport-typography.md
+  s_7bf87e42a34744::t_1c7764948ff021 49
+wiki/repos/TIX-PASSPORT/passport-packages.md
+  s_7bf87e42a34744::t_38849710856b01 18,105
+wiki/repos/TIX-PASSPORT/passport-workflows.md
+  s_7bf87e42a34744::t_3d268af4b9ce00 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "12a79b3a24ff9763d66256ab2e217df02a28231b",
+  "prompts": {},
+  "sessions": {
+    "s_7bf87e42a34744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "892dbfff-dad9-4a1a-82ec-9030764896d0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
