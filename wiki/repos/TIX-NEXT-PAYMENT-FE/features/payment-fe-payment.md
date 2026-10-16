@@ -8,6 +8,11 @@ sources:
   - pages/payment
   - components/providers/PaymentPageProvider
   - components/AnalyticsProvider
+  - components/SubmitPayment/index.tsx
+  - lib/helpers/checkoutStatusRecovery.ts
+  - lib/helpers/landingLeaveMarker.ts
+  - lib/helpers/checkStatusCooldown.ts
+  - lib/hooks/useSkipStaleLandingEntry.ts
   - lib/services/landingData
   - lib/endpoint.ts
   - lib/config.ts
@@ -48,7 +53,10 @@ Legacy URLs are kept by `next.config.ts` rewrites: `/next/v4` → `/payment`, `/
 ## Data & services
 - **Providers** (`components/providers/PaymentPageProvider`): Global → Time → Session → Order → Landing → Payment → `PromoProvider` → `DownPaymentProvider` → `PaymentNudgeProvider` → `CreditcardRequestProvider` → `CheckVersionProvider`. It renders a loader until `useCheckVersion` (`/tix-payment-core/payment/check-version`) resolves. Inside the landing, `PromoTixpointResolverProvider` and `InstallmentProvider` are also mounted.
 - **Landing data:** `lib/services/landingData/getLandingData` + `useGetLandingData` (a mutation) against `/tix-payment-core/payment/v4/landing`. Per AGENTS.md, landing data is refetched after: apply/remove promo, apply/remove points, change payment method, change installment. `app/payment/hooks/useRefetchLanding/` holds the promo and points variants (`useRefetchLandingForApplyPromo`, `…ForUnapplyPromo`, `…ForTixPoints`) and the request-body helpers (`buildLandingRequestBody`, `getRequestPaymentMethod`, `getSelectedInstallment`…).
-- **Reopen gate:** `pages/payment/hooks/useGetPaymentLandingPhase.ts` re-checks `check-version` so that an order paid or expired in another tab can't be checked out again. `?action=` is a one-shot bypass, latched on mount and then stripped from the URL. The App Router copy is in [[payment-fe-payment-link]].
+- **Reopen gate ("payment persistence"):** `pages/payment/hooks/useGetPaymentLandingPhase.ts` re-checks `check-version` so that an order paid or expired in another tab can't be checked out again. `PaymentPersistenceStatusProvider` wraps the landing page and renders from the phase: `allow` shows landing, `loading` shows a spinner while it redirects, `expired` shows the expired popup, `accountMismatch` (error code `DATA_NOT_EXIST`) shows "change account", and `error` shows the generic error page. `mapCheckoutStatusToAction` (`lib/helpers/checkoutStatusRecovery.ts`) maps the status: `SHOPPINGCART` stays on landing, `CHECKOUT`/`PAID_QUEUE` go to confirm, `PAID`/`SUCCESS`/`FAILED` go to complete, `EXPIRED` shows the popup, and `REFUNDED`/`DISCARDED`/unknown are blocked. `CHECKOUT` with `CORPORATE_BILLING` goes to complete, because corporate billing has no confirm page. `?action=CHANGE_PAYMENT_METHOD|CHANGE_ANOTHER_CARD|RE_ENTER_CVV` (sent by the failed page) is a one-shot bypass, latched on mount and then stripped from the URL. The App Router copy is in [[payment-fe-payment-link]].
+  - **There is no reset endpoint.** The backend moves the order from `CHECKOUT` back to `SHOPPINGCART` when landing calls `/v4/landing`. Until then check-version still reports `CHECKOUT`, which is why the bypass is latched with `useState`: re-reading the stripped URL would send the user to confirm mid-flow (PLAT-59072 AC3).
+  - **Stale history entry** (#1613, `005db6372`): `usePreventPageLeave` leaves a `?preventLeave=true` landing entry below the page that submit replaces, so Back from confirm returns to landing. `SubmitPayment` calls `markLandingLeft(orderId)`, which writes `sessionStorage` key `payment_landing_left:<orderId>` with a 1 h TTL. On mount, `useSkipStaleLandingEntry` consumes the marker, which it always clears. If the marker was there and the URL has `preventLeave`, it calls `history.back()` again.
+  - The confirm page's "check payment status" cooldown (30 s) is kept in `localStorage` (`lib/helpers/checkStatusCooldown.ts`), keyed `<namespace>:checkStatusCooldown:<orderId>`, so a refresh doesn't reset it. Regular payment and payment link share an origin and use different namespaces.
 - **Promo** (`app/payment/containers/PromoContainer`, `context/PromoContext`, `reducers/PromoReducer.ts`, `services/promo/*`): suggestions (`/promo/suggestion`), apply/unapply/check-availability on the **v2** endpoints (`/tix-payment-core/promo/v2/apply|unapply|check-availability`), and cashback (`/tix-discount-engine/discount/cashback`). Listener hooks handle auto-apply from URL, auto-unapply, sync-from-landing and availability watching. `IneligibleReason` combines backend codes (from tix-promo-go `/evaluate`) and FE-only codes such as `LOGIN_REQUIRED` and `TENOR_NOT_SELECTED`.
 - **Promo ↔ points conflict:** `context/PromoTixpointResolverProvider` (+ `PromoTixpointResolveReducer`) shows "can't use promo" and "can't use points" dialogs and reapplies points with updated values.
 - **Tiket points:** `containers/TiketPointsContainer`, `app/hooks/useGetTiketPoints|useApplyTiketPoints|useUnapplyTiketPoints` → `/tix-payment-core/loyalty/v1/eligible-points|apply-point|unapply-point`.
@@ -77,7 +85,7 @@ GTM through `lib/hooks/useGTM` (`pushGTMImpressionV2`, `pushGTMStatusV2`, `pushG
 
 ## Sources
 - `pages/payment/index.page.tsx`, `pages/payment/[type]/{index,confirm/index,complete/index,callback/index}.page.tsx`, `pages/payment/payment-partner/index.page.tsx`
-- `pages/payment/hooks/useGetPaymentLandingPhase.ts`
+- `pages/payment/hooks/useGetPaymentLandingPhase.ts`, `pages/payment/providers/PaymentPersistenceStatusProvider/*`, `lib/helpers/{checkoutStatusRecovery,landingLeaveMarker,checkStatusCooldown}.ts`, `lib/hooks/useSkipStaleLandingEntry.ts`, `lib/constants/common.ts` (`PAYMENT_STATUS_PHASE`, `PAYMENT_ACTIONS`)
 - `components/providers/PaymentPageProvider/PaymentPageProvider.tsx`, `components/providers/AppProvider.tsx`, `components/AnalyticsProvider/index.tsx`
 - `app/payment/containers/PromoContainer/hooks/{useAutomaticApplyPromoFromUrl,useRemovePromoFromQuery}/*`
 - `app/payment/containers/PromoContainer/PromoContainer.tsx`, `app/payment/context/PromoContext/types.ts`, `app/payment/context/PromoTixpointResolverProvider/types.ts`, `app/payment/services/promo/*`, `app/payment/hooks/useRefetchLanding/index.ts`

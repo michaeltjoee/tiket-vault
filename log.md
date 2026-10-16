@@ -31,3 +31,4 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 - `> ` summary lines added to payment-fe-workflows, gtm-extras-workflows, react-remote-architecture, react-remote-workflows, fintech-fe-workflows.
 - TIX-HOMEPAGE-NEXT-FE (408983f6) and TIX-GROWTH-NEXT-FE (d4162e3) added to `repos:` of 23 shared pages, verified against origin/main.
 - Schema (CLAUDE.md) updated: generated layer, required `> ` line, `umbrella:` field, `kind/index`, commit via `scripts/commit.sh`.
+## [2026-10-16] update | payment-fe-payment — reopen gate (payment persistence): status mapping, BE reset via /v4/landing, stale-landing sessionStorage marker, check-status cooldown
