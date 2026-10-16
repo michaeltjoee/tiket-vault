@@ -1,0 +1,20 @@
+CLAUDE.md
+  s_7bf87e42a34744::t_4555a8207db87e 128
+  s_7bf87e42a34744::t_140c6dd3d977b6 3,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "3def6c9116cbebe25a54041951a4bd6df64574f3",
+  "prompts": {},
+  "sessions": {
+    "s_7bf87e42a34744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "892dbfff-dad9-4a1a-82ec-9030764896d0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
