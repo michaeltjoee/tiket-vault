@@ -18,3 +18,6 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 - new [[payment-fe-smart-pay]]; rewrote router sections of [[payment-fe-architecture]], [[payment-fe-overview]], [[payment-fe-payment]], [[fintech-fe-architecture]]
 - AGENTS.md in TIX-NEXT-PAYMENT-FE is wrong on main: says Next 14 App Router only, actual Next 16.3.6 hybrid with /payment and /smart_pay on Pages Router
 - schema: documented cross-repo `verified_at` map + `REPO/path` sources convention
+
+## [2026-10-16] update | payment-fe: smart_pay coachmark cookie domain gotcha
+- [[payment-fe-smart-pay]]: `coachmark` cookie set on both `.tiket.com` and host-only; js-cookie returns the first match, so Krom (prerelease) shows the coachmark on a stale BLU cookie

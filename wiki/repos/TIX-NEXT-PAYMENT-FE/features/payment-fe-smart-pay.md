@@ -6,6 +6,7 @@ sources:
   - pages/smart_pay
   - lib/services/payment-methods.ts
   - lib/hooks/useSaveHistoryLength.tsx
+  - lib/hooks/useCheckKromLinkageStatus.ts
   - components/OneKlik/index.tsx
   - components/AnalyticsProvider/index.tsx
   - next.config.ts
@@ -60,6 +61,7 @@ No GTM events of its own. `components/AnalyticsProvider` sets `window.eventPrope
 ## Gotchas
 - **`dana.page.tsx` is a route.** `pageExtensions` includes `page.tsx`, so `[method]/dana.page.tsx` is served at `/smart_pay/{anything}/dana` without `withPaymentPageProvider` or `getServerSideProps`. It is only meant to be imported by `[method]/index.page.tsx`. Name non-route files in `pages/` without `.page.` (as `components/` and `binding/helper.ts` already are).
 - Two return paths exist for the same partners. Legacy flows come back to `/smart_pay` itself with `response`, `referenceId` or `paymentCode`, and the list page handles them. Newer flows use `/smart_pay/{method}/binding`. Both call the same services, so a fix in one may be needed in the other.
+- **The `coachmark` cookie is written on two domains.** `binding/helper.ts` sets it with `domain: .tiket.com`. `index.page.tsx` (OVO, BLU, GOPAY), `NewAccount` (ATM_TRANSFER) and `Items` (ONEKLIK) set it host-only. These are two separate cookies with the same name. A host-only write does not replace a `.tiket.com` one. js-cookie 3 `get` returns the first match in `document.cookie`, which is usually the older cookie, so `MethodTile` can show the coachmark on a stale method. The `.tiket.com` cookie is cleared only when an `Items` coachmark closes (`clearAllCoachmarks`), and that coachmark only runs on mobile. So a link made from the payment page, or on desktop, leaves its cookie behind. On `prerelease` (e609a125a), Krom's `useCheckKromLinkageStatus` sets `KROM` host-only. After an earlier BLU link through `/smart_pay/blu/binding`, the coachmark then shows on BLU instead of Krom.
 - `pages/smart_pay/lib/context` (`SmartPayContext`) and `lib/hooks` (`useBottomSheet`) are dead code: nothing imports them. The smart_pay components import `useBottomSheet` from root `@/lib/hooks` instead.
 - Shared code depends on this route folder: `lib/hooks/useSaveHistoryLength.tsx` imports `saveHistoryLength` from `@/pages/smart_pay/[method]/binding/helper`, and `lib/hooks/usePreventPageLeave` calls that hook. The payment landing's `PageLeaveDialog` and confirm/complete pages use `usePreventPageLeave`, and App Router payment-link code imports a constant from the same module. Moving or deleting `pages/smart_pay` breaks both routers.
 - `[method]/dana.page.tsx` and `DanaItemTile` use `useRouter` from `next/navigation`; the other pages use `next/router`.
