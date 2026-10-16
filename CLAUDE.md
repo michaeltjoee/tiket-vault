@@ -1,6 +1,6 @@
 # tiket workspace wiki: schema
 
-This vault follows Karpathy's LLM Wiki pattern. It is a knowledge base about the six repos in `~/tiket-workspaces/`, and an LLM agent maintains it. The human curates the sources and asks the questions. The agent writes and maintains every page under `wiki/`, plus `index.md` and `log.md`.
+This vault follows Karpathy's LLM Wiki pattern. It is a knowledge base about the repos in `~/tiket-workspaces/` listed below, and an LLM agent maintains it. The human curates the sources and asks the questions. The agent writes and maintains every page under `wiki/`, plus `index.md` and `log.md`.
 
 Vault root: `/Users/michael.tjoe/Library/Mobile Documents/iCloud~md~obsidian/Documents/tiket-passport/passport`. This path has spaces, so always quote it in a shell.
 
@@ -28,6 +28,7 @@ The wiki describes each repo's **baseline branch**. It never describes the local
 | TIX-NEXT-PAYMENT-FE | `payment-fe` | `origin/main` | one page per route feature under `app/`; one page for all of `components/` | `features/` |
 | TIX-FINTECH-NEXT-FE | `fintech-fe` | `origin/main` | one page per route feature under `app/`; one page for all of `components/` | `features/` |
 | TIX-GTM-EXTRAS | `gtm-extras` | `origin/main` | one page per vendor (fb, tiktok, polaris, ahrefs, optimize…) over `scripts/` | `vendors/` |
+| TIX-HOMEPAGE-NEXT-FE | `homepage-fe` | `origin/main` | one page per route feature under `pages/` (and `app/api`); one page for all of `components/` | `features/` |
 
 Read code without touching the working tree:
 
@@ -124,6 +125,7 @@ Write to the wiki when the task taught you something **that isn't obvious from t
 3. Update `index.md`, append to `log.md` and commit.
 
 ### Lint (when the human asks)
+For staleness and coverage of one repo, use the `wiki-sync` skill. Its `~/.claude/skills/wiki-sync/scan.sh <repo-dir>` lists stale, missing and uncovered pages. The checks below that it doesn't cover (links, orphans, contradictions) belong to a full lint.
 Report first. Fix only what the human approves, or fix everything if they said "fix".
 - **Stale:** pages whose `sources` changed since `verified_at` (check with `git log`). Refresh them and bump `verified_at`.
 - **Missing:** units on the baseline that have no page (packages, components or features that were added), and pages whose units were removed (mark them `deprecated`).
