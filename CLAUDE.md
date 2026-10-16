@@ -29,6 +29,7 @@ The wiki describes each repo's **baseline branch**. It never describes the local
 | TIX-FINTECH-NEXT-FE | `fintech-fe` | `origin/main` | one page per route feature under `app/`; one page for all of `components/` | `features/` |
 | TIX-GTM-EXTRAS | `gtm-extras` | `origin/main` | one page per vendor (fb, tiktok, polaris, ahrefs, optimize…) over `scripts/` | `vendors/` |
 | TIX-HOMEPAGE-NEXT-FE | `homepage-fe` | `origin/main` | one page per route feature under `pages/` (and `app/api`); one page for all of `components/` | `features/` |
+| TIX-GROWTH-NEXT-FE | `growth-fe` | `origin/main` | one page per route feature under `pages/` (API routes in `app/api` + `pages/api` share one page); one page for all of `components/` | `features/` |
 
 Read code without touching the working tree:
 

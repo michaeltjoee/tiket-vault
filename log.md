@@ -21,3 +21,6 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 
 ## [2026-10-16] update | payment-fe: smart_pay coachmark cookie domain gotcha
 - [[payment-fe-smart-pay]]: `coachmark` cookie set on both `.tiket.com` and host-only; js-cookie returns the first match, so Krom (prerelease) shows the coachmark on a stale BLU cookie
+## [2026-10-16] ingest | add TIX-GROWTH-NEXT-FE (growth-fe) @ d4162e3: 11 pages (overview, architecture, workflows, 8 features)
+- schema: repo table row; wiki-sync `scan.sh` unit roots (`pages app`)
+- notable on main: open redirect in `isRedirectWhitelistDomain` (metasearch), committed `sonar.login` token, stories landing/tag bugs, Passport pinned at 8.0.0
