@@ -1,0 +1,29 @@
+.gitignore
+  s_7bf87e42a34744::t_8e87d6a7fe8e8b 1-4
+AGENTS.md
+  s_7bf87e42a34744::t_788890604d7731 1
+index.md
+  s_7bf87e42a34744::t_c7c3c137bf0a7b 1-9
+log.md
+  s_7bf87e42a34744::t_79d11cb0a7d646 1-5
+wiki/decisions/page-module-next-poc.md
+  s_7bf87e42a34744::t_3fd891e75d164d 1-43
+wiki/howto/passport-local-tooling.md
+  s_7bf87e42a34744::t_f85c5f6738cf60 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "c609a5eb3ccd1b417c593f0e5f12b30df59b8e97",
+  "prompts": {},
+  "sessions": {
+    "s_7bf87e42a34744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "892dbfff-dad9-4a1a-82ec-9030764896d0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
