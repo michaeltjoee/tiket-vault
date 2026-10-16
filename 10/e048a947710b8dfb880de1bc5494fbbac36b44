@@ -1,0 +1,73 @@
+CLAUDE.md
+  s_7bf87e42a34744::t_b7edbffaed9643 86,93-94
+  s_7bf87e42a34744::t_830463b3bf7437 85,87-92
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-destination-preview.md
+  s_7bf87e42a34744::t_9901be260f82bc 1-49
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-destination.md
+  s_7bf87e42a34744::t_6396ba896e06bb 37
+  s_7bf87e42a34744::t_1329ed25e8eb61 1-36,38-58
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/homepage-fe-workflows.md
+  s_7bf87e42a34744::t_5d6395afca12ab 1-115
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-smart-pay.md
+  s_7bf87e42a34744::t_ee071c6cdb161d 64
+  s_7bf87e42a34744::t_b88877a35c89eb 1-63,65-76
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-explore-preview.md
+  s_7bf87e42a34744::t_fb99a5f0fc8372 1-42,44-49
+  s_7bf87e42a34744::t_11fef6ff8938c4 43
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-home.md
+  s_7bf87e42a34744::t_0951d4cee88f4a 1-72
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/homepage-fe-overview.md
+  s_7bf87e42a34744::t_b9637eaa40921a 1-56,59-82
+  s_7bf87e42a34744::t_619dc102906f9b 58
+  s_7bf87e42a34744::t_39789bd8c71d2c 57
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-api.md
+  s_7bf87e42a34744::t_ecd5dcc52d8157 1-58
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-components.md
+  s_7bf87e42a34744::t_a83f2888ee640b 31
+  s_7bf87e42a34744::t_cc3fac8ebce32f 1-22,24-30,32-70
+  s_7bf87e42a34744::t_07587273fa7299 23
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-promo.md
+  s_7bf87e42a34744::t_b737cf30258f07 1-51,53-76
+  s_7bf87e42a34744::t_e6cea9a6f09901 52
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-cross-sell-trip.md
+  s_7bf87e42a34744::t_f7c6a076a34483 1-64
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-app-shell.md
+  s_7bf87e42a34744::t_6a4eccb0125b0a 1-54,56-77
+  s_7bf87e42a34744::t_9521684d47783a 55
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/homepage-fe-architecture.md
+  s_7bf87e42a34744::t_ad912fd97e0a32 49
+  s_7bf87e42a34744::t_a2b622b340c02c 1-48,50-92,94-128
+  s_7bf87e42a34744::t_9b68b4d624382b 93
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-voucher-box.md
+  s_7bf87e42a34744::t_3714844b3c16e0 1-61
+wiki/repos/TIX-HOMEPAGE-NEXT-FE/features/homepage-fe-explore.md
+  s_7bf87e42a34744::t_d248b3a6ce3f46 1-61
+index.md
+  s_7bf87e42a34744::t_b7eaf0e13aaa76 196,221-236
+log.md
+  s_7bf87e42a34744::t_30dd148ca87383 13-20
+wiki/repos/TIX-FINTECH-NEXT-FE/fintech-fe-architecture.md
+  s_7bf87e42a34744::t_de85ee3018ab47 13-17,35,54-78,119-120,124-125
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-payment.md
+  s_7bf87e42a34744::t_4f24bb04d52db9 10,22,27-34,65,68,74-75,81-82,86-87
+wiki/repos/TIX-NEXT-PAYMENT-FE/payment-fe-architecture.md
+  s_7bf87e42a34744::t_207b11c6f53827 11-17,30,33,35-41,43,45-50,52-79,105,140-141,144-145
+wiki/repos/TIX-NEXT-PAYMENT-FE/payment-fe-overview.md
+  s_7bf87e42a34744::t_f74d3bfaa7203c 29-30,41,46,64,71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "10e048a947710b8dfb880de1bc5494fbbac36b44",
+  "prompts": {},
+  "sessions": {
+    "s_7bf87e42a34744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "892dbfff-dad9-4a1a-82ec-9030764896d0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
