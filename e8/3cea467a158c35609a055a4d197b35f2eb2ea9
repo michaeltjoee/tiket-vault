@@ -1,0 +1,22 @@
+wiki/repos/TIX-NEXT-PAYMENT-FE/features/payment-fe-payment.md
+  s_aedfcce806878f::t_5d4dccdf8fd389 56-59
+  s_aedfcce806878f::t_72c15d5ae10570 11-15,88
+log.md
+  s_aedfcce806878f::t_d4947fc8566df9 34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "e83cea467a158c35609a055a4d197b35f2eb2ea9",
+  "prompts": {},
+  "sessions": {
+    "s_aedfcce806878f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "876049ab-a895-4f3c-baa9-d5f0dc8fab56",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "michaeltjoee <113000037+michaeltjoee@users.noreply.github.com>"
+    }
+  }
+}
