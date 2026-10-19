@@ -33,3 +33,4 @@ Append-only. Format: `## [YYYY-MM-DD] op | summary`. Newest last.
 - Schema (CLAUDE.md) updated: generated layer, required `> ` line, `umbrella:` field, `kind/index`, commit via `scripts/commit.sh`.
 ## [2026-10-16] update | payment-fe-payment — reopen gate (payment persistence): status mapping, BE reset via /v4/landing, stale-landing sessionStorage marker, check-status cooldown
 ## [2026-10-16] update | payment-fe-smart-pay — two unlink paths per method (tile vs detail page), DANA hook; gotchas: detail-page OneKlik unlink hits /tix-payment-core/undefined, legacy order_id card return never clears loading
+## [2026-10-19] update | homepage-fe-architecture — request flow corrected (no route prefetches page data for humans; voucher-box awaits serially); new cross-page gotchas: guest userId "undefined", services never throw, soft 404s/no Cache-Control, preview auth/noindex, test entries in customCanonicalLink

@@ -30,7 +30,7 @@ sources:
   - docs/i18n.md
   - docs/deployment.md
 verified_at: 408983f6
-updated: 2026-10-16
+updated: 2026-10-19
 status: current
 tags: [repo/homepage-fe, kind/architecture]
 ---
@@ -55,7 +55,7 @@ The `*.page.ts(x)` extension is required for anything Next treats as a route, mi
 
 ## Request flow
 1. **Middleware** (`middleware.page.ts`): `chain([localeMiddleware, currencyMiddleware, rewriteMiddleware])` from `@tiket/next/server`. The local `rewriteMiddleware` rewrites every request to `/${locale}${pathname}`, because Next's built-in i18n (`locales: ['en','id']`, `defaultLocale: 'id'`, `localeDetection: false`) expects the locale as the first path segment. A comment says to rename it to `middleware.ts` when the Pages Router goes away.
-2. **getServerSideProps** reads the middleware result with `getServerSidePropsMiddlewareData(ctx)` (locale, currency, country, `sessionData`, `isBot`, `isNewURLStructure`). It then runs in parallel: the A/B test fetch (`getAbTestOnServer`, see [[ab-testing]]), `getReactRemoteProps(...)` for SSR'd remote widgets, and the feature's service call, prefetched into a `QueryClient` and returned as `dehydratedState`.
+2. **getServerSideProps** reads the middleware result with `getServerSidePropsMiddlewareData(ctx)` (locale, currency, country, `sessionData`, `isBot`, `isNewURLStructure`). It then runs the A/B test fetch (`getAbTestOnServer`, see [[ab-testing]]) and `getReactRemoteProps(...)` for SSR'd remote widgets, usually in parallel via `Promise.allSettled`. Voucher-box is the exception: it awaits them one after the other. **Page data is not prefetched for real users on any route.** Home, destination and explore prefetch into a `QueryClient` (`dehydratedState`) only when `isBot`. Promo detail fetches only the meta for bots. Promo list, the previews, voucher box and cross-sell fetch nothing on the server. Humans always get a skeleton, then a client `useQuery`.
 3. **_app** (`pages/_app.page.tsx`) wraps every page in `AppProvider` and adds `TiketMetaTag`, `GlobalJsonLd`, the GTM `Script` and `RemoteScripts` (details in [[homepage-fe-app-shell]]). Pages can set `getLayout`.
 4. **AppProvider** (`components/providers/AppProvider.tsx`) nests: `ErrorBoundary` → `MiddlewareDataProvider` → `LocaleCountryProvider` → `PassportProvider` (locale, `customFetch`, country, currency, `isNewURLStructure`, `isLoggedIn`, `ssrEstimatedDeviceType`, `abTestOnServerResponse`) → `QueryClientProvider` (no refetch on mount, focus or reconnect) → `HydrationBoundary` → `ReactRemoteProvider` → `ForwardParamsProvider` → `RemoteCountryAndCurrencyModal` + `SnackbarProvider` + `I18nProvider`. It also calls `usePageVisitAnalytics` and `setupClientGlobals` (dayjs locale).
 
@@ -114,6 +114,13 @@ Next i18n routing plus a Rosetta-style dictionary (docs/i18n.md). `lib/i18n` has
 
 ## patches/
 `patches/jsdom@26.1.0.patch` makes `window.location` and its members configurable, so tests can mock them. **It is not wired up on main:** `package.json` has no `pnpm.patchedDependencies` and the lockfile has no patch entry, so pnpm doesn't apply it. The `migrate-jest-testing` skill (`.cursor/skills/migrate-jest-testing/SKILL.md`) describes the `patchedDependencies` entry that would enable it. The Dockerfile still copies `patches/` into the deps stage.
+
+## Cross-page gotchas (408983f6)
+- **Guest `userId` is the string `"undefined"`.** Home, destination, explore, voucher-box and cross-sell GSSPs all do `String(sessionData?.accountId) || undefined`. `String(undefined)` is truthy, so guests reach `getAbTestOnServer` with `userId: "undefined"`. The fix is `accountId ? String(accountId) : undefined`.
+- **Services never throw, so React Query's `isError` is almost never true.** Each service returns `error(e)`, which is cached as successful data. Pages must branch on `data.code !== 'SUCCESS'`. A `try/catch` around `prefetchQuery` in GSSP (as on home) is dead code.
+- **No GSSP sets `Cache-Control` or returns `notFound`.** A missing destination, explore or promo is a 200 soft 404. The explore and promo error views are `ssr:false`, so bots get an empty page.
+- **Previews have no auth gate in the app.** `destination-preview` and `explore-preview` rely on the `tix-home` admin endpoint to reject callers. Explore-preview sets `noindex` (via a pathname check in `DynamicLandingPageContent`). Destination-preview doesn't, and still emits Article JSON-LD.
+- **`components/SEOPageHead/customCanonicalLink.ts`** contains test entries (`/explore/test-slug`, `/explore/thailand` → a Kalibata apartment page) that ship to production.
 
 ## Sources
 - `next.config.ts`, `middleware.page.ts`, `instrumentation.page.ts`
